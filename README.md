@@ -14,10 +14,10 @@ $ npm install iso8601-duration
 
 ### Interface
 
-```
-export const toSeconds ... // fn = obj => number
-export const pattern ... // regexp
-export const parse ... // fn = string => obj
+```js
+export const toSeconds; // fn = obj => number
+export const pattern;   // ISO8601 RegExp
+export const parse;     // fn = string => obj
 export default {
 	toSeconds,
 	pattern,
@@ -26,7 +26,7 @@ export default {
 ```
 
 ### Example
-```
+```js
 import {parse, toSeconds, pattern} as iso8601 from 'iso8601-duration';
 
 const getWithSensibleDUrations = someApiEndpoint => {
