@@ -2,20 +2,26 @@
   "name": "iso8601-duration",
   "version": "1.0.0",
   "description": "Node/Js-module for parsing and making sense of ISO8601-durations",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "jsnext:main": "src/index.es6.js",
   "scripts": {
     "test": "xo && ava",
     "compile": "babel -d lib/ src/",
     "prepublish": "npm run compile",
     "watch": "onchange '**/*.js' -- npm run test"
   },
+  "files": [
+    "src/index.es6.js",
+    "lib/index.js"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tolu/ISO8601-duration.git"
   },
   "keywords": [
     "ISO8601",
-    "duration"
+    "duration",
+    "time"
   ],
   "author": "Tobias Lundin",
   "license": "MIT",
@@ -31,7 +37,10 @@
     "xo": "^0.12.1"
   },
   "xo": {
-    "esnext": true
+    "esnext": true,
+    "ignore": [
+      "lib/*.js"
+    ]
   },
   "ava": {
     "files": [
