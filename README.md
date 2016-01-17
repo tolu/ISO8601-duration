@@ -4,29 +4,25 @@ Node/Js-module for parsing and making sense of ISO8601-durations
 [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)][1]
 [![Build Status: Travis](https://travis-ci.org/tolu/ISO8601-duration.svg?branch=master)][2]
 
+## Install
+
+```
+$ npm install iso8601-duration
+```
+
 ## Usage
-
-### Install
-
-`npm install iso8601-duration`
-
-### Use from ES2015 or ES5 context
-
-`es5 example here`
-
-`es2015 example here`
 
 ### Interface
 
 ```
 export default {
-	fromSeconds,
+	toSeconds,
 	pattern,
 	parse
 }
 ```
 
-### Example with fixing json from api
+### Example
 ```
 import * as iso8601 from 'iso8601-duration';
 
