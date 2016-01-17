@@ -3,6 +3,7 @@ Node/Js-module for parsing and making sense of ISO8601-durations
 
 [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)][1]
 [![Build Status: Travis](https://travis-ci.org/tolu/ISO8601-duration.svg?branch=master)][2]
+[![npm version](https://badge.fury.io/js/iso8601-duration.svg)][3]
 
 ## Install
 
@@ -58,3 +59,4 @@ MIT © Tobias Lundin
 
 [1]: https://github.com/sindresorhus/xo "xo on github"
 [2]: https://travis-ci.org/tolu/ISO8601-duration "travis build status"
+[3]: https://badge.fury.io/js/iso8601-duration "npm badge"
