@@ -1,5 +1,5 @@
 import test from 'ava';
-import * as duration from '../src/iso8601-duration';
+import * as duration from '../src/index.es6';
 
 test('Parse: correctly parses data-time format', t => {
 	const time = duration.parse('P2Y4M6DT14H30M20.42S');
