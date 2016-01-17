@@ -15,6 +15,9 @@ $ npm install iso8601-duration
 ### Interface
 
 ```
+export const toSeconds ... // fn = obj => number
+export const pattern ... // regexp
+export const parse ... // fn = string => obj
 export default {
 	toSeconds,
 	pattern,
@@ -24,7 +27,7 @@ export default {
 
 ### Example
 ```
-import * as iso8601 from 'iso8601-duration';
+import {parse, toSeconds, pattern} as iso8601 from 'iso8601-duration';
 
 const getWithSensibleDUrations = someApiEndpoint => {
 	// return promise
@@ -34,9 +37,10 @@ const getWithSensibleDUrations = someApiEndpoint => {
 			.then(res => res.text())
 			.then(jsonString => {
 				// convert iso8601 durations to total seconds
-				var pattern = new RegExp(iso8601.pattern.source, 'g');
+				// create new pattern that matche son surrounding double-quotes
+				const pattern = new RegExp(`\\"${pattern.source}\\"`, 'g');
 				jsonString = jsonString.replace(pattern, m => {
-					return iso8601.toSeconds(iso8601.parse(m));
+					return toSeconds(parse(m));
 				});
 				// resolve original request with sensible durations
 				resolve( JSON.parse(jsonString) );
@@ -45,6 +49,10 @@ const getWithSensibleDUrations = someApiEndpoint => {
 }
 
 ```
+
+## License
+
+MIT © Tobias Lundin
 
 [1]: https://github.com/sindresorhus/xo "xo on github"
 [2]: https://travis-ci.org/tolu/ISO8601-duration "travis build status"
