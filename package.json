@@ -11,7 +11,7 @@
     "watch": "onchange '**/*.js' -- npm run test"
   },
   "files": [
-    "src/index.es6.js",
+    "src/index.js",
     "lib/index.js"
   ],
   "repository": {
