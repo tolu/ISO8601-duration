@@ -59,4 +59,4 @@ MIT © Tobias Lundin
 
 [1]: https://github.com/sindresorhus/xo "xo on github"
 [2]: https://travis-ci.org/tolu/ISO8601-duration "travis build status"
-[3]: https://badge.fury.io/js/iso8601-duration "npm badge"
+[3]: https://www.npmjs.com/package/iso8601-duration "npm package"
