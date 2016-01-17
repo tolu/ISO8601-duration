@@ -1,5 +1,5 @@
 import test from 'ava';
-import {parse, toSeconds, pattern} from '../src/index.es6';
+import {parse, toSeconds, pattern} from '../src/index';
 
 test('Parse: correctly parses data-time format', t => {
 	const time = parse('P2Y4M6DT14H30M20.42S');
