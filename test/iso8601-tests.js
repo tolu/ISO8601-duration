@@ -52,6 +52,23 @@ test('toSeconds: return weeks in total seconds', t => {
 	t.ok(res, expected);
 });
 
+test('toSeconds: with supplied start date', t => {
+	// Arrange
+	const firstOfJanuary = new Date(2016, 0, 1);
+	const firstOfFebruary = new Date(2016, 1, 1);
+	const expectedJanDuration = ((new Date(2016, 1, 2)).getTime() - (new Date(2016, 0, 1)).getTime()) / 1000;
+	const expectedFebDuration = ((new Date(2016, 2, 2)).getTime() - (new Date(2016, 1, 1)).getTime()) / 1000;
+
+	// Act
+	const durFromJan = toSeconds(parse('P1M1D'), firstOfJanuary);
+	const durFromFeb = toSeconds(parse('P1M1D'), firstOfFebruary);
+
+	// Assert
+	t.ok(durFromJan > durFromFeb);
+	t.same(expectedJanDuration, durFromJan);
+	t.same(expectedFebDuration, durFromFeb);
+});
+
 test('usage example test', t => {
 	// Arrange
 	const jsonString = JSON.stringify({
