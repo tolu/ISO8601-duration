@@ -61,6 +61,7 @@ export const toSeconds = (duration, startDate) => {
 };
 
 export default {
+	toSeconds,
 	pattern,
 	parse
 };
