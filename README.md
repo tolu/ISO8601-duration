@@ -29,20 +29,22 @@ export default {
 ```js
 import {parse, toSeconds, pattern} as iso8601 from 'iso8601-duration';
 
+// convert iso8601 duration-strings to total seconds from some api
 const getWithSensibleDUrations = someApiEndpoint => {
-	// return promise
+	// return promise, like fetch does
 	return new Promise(resolve => {
 		// fetch text
-		fetch('some-api-endpoint')
+		fetch(someApiEndpoint)
 			.then(res => res.text())
 			.then(jsonString => {
-				// convert iso8601 durations to total seconds
-				// create new pattern that matche son surrounding double-quotes
-				const pattern = new RegExp(`\\"${pattern.source}\\"`, 'g');
-				jsonString = jsonString.replace(pattern, m => {
+
+				// create new pattern that matches on surrounding double-quotes
+				// so we can replace the string with an actual number
+				const replacePattern = new RegExp(`\\"${pattern.source}\\"`, 'g');
+				jsonString = jsonString.replace(replacePattern, m => {
 					return toSeconds(parse(m));
 				});
-				// resolve original request with sensible durations
+				// resolve original request with sensible durations in object
 				resolve( JSON.parse(jsonString) );
 		});
 	});
