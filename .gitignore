@@ -32,3 +32,6 @@ node_modules
 
 # Optional REPL history
 .node_repl_history
+
+# Other files and folders specific to this repo
+lib
