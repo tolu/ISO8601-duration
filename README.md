@@ -2,8 +2,10 @@
 Node/Js-module for parsing and making sense of ISO8601-durations
 
 [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)][1]
-[![Build Status: Travis](https://travis-ci.org/tolu/ISO8601-duration.svg?branch=master)][2]
-[![npm version](https://badge.fury.io/js/iso8601-duration.svg)][3]
+[![Build Status: Travis](https://img.shields.io/travis/tolu/ISO8601-duration/master.svg)][2]
+[![npm version](https://img.shields.io/npm/v/iso8601-duration.svg)][3]
+
+
 
 ## Install
 
