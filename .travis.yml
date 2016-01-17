@@ -1,8 +1,16 @@
 language: node_js
 node_js:
-  - '5'
-  - '4'
-  - '0.12'
-  - '0.10'
+- '5'
+- '4'
+- '0.12'
+- '0.10'
 before_install:
-  - 'npm i -g npm@latest'
+- npm i -g npm@latest
+deploy:
+  provider: npm
+  email: tobias.lundin@gmail.com
+  api_key:
+    secure: Hh8dnfBQcwUMXybsT1MIp3xcsmNLby/WCcJLAP09YUQdje2UpuvjRhlnRmqIxoc9DK18V0p11JXgwEp7ZKYmjnq2c6Xigj5WcVbbXmjnrKKn/HAOypGaOmJ8G7ZkzLd5tIpinUHqVBeZ0fRIrcHLTrF6RisP6c/tLbwKQVdcvbkMmdRmBuKVS4TWKWc0SCpN4vgqh7qhZCoJjD/t7lpUljDjMcTgZDQd4dvbpxmYFn3R79q3NoVhvGZBzg2zQiB0uOwLGc7ZCr4BJdOsYTLjUx+3Hex2lBQfUvwZH7rehZ1mj2+Igios4ZO2wy7/z8H2Th3RNgLzkIIm8AOFYZb5ssZS2VK8luhexPD4K30JERCsc87sio6mdtAhSV3Q+rDP7WUviT+iO1qwmpbm20kw2500pLRdi66W+N0Lj6br/iqKvB409ijMMuE+sks0E76G49Z7P8rt03+VAPjsuEe4v//9KOESiwD1eefFFl590YzYBpZz3Vj+QFXfosFLtxAOfpKH0wednR1YUq6IelKFKKOsIf3pHT0UQLNG1rfhtwflRx9hzludnhhENrkYcSqCdvRKYotX95ff3emTW7NmBroMkS/Kduc8x9sf+hW1Atw7pAgL+I14yFQim95l0zJMJdQ9sJTiPXUqR2y32RJwbhotXYNkX9oqtM+nBD8WURM=
+  on:
+    tags: true
+    repo: tolu/ISO8601-duration
