@@ -30,7 +30,7 @@ export default {
 
 ### Example
 ```js
-import {parse, toSeconds, pattern} as iso8601 from 'iso8601-duration';
+import {parse, toSeconds, pattern} from 'iso8601-duration';
 
 // convert iso8601 duration-strings to total seconds from some api
 const getWithSensibleDurations = someApiEndpoint => {
