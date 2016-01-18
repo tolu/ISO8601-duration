@@ -33,7 +33,7 @@ export default {
 import {parse, toSeconds, pattern} as iso8601 from 'iso8601-duration';
 
 // convert iso8601 duration-strings to total seconds from some api
-const getWithSensibleDUrations = someApiEndpoint => {
+const getWithSensibleDurations = someApiEndpoint => {
 	// return promise, like fetch does
 	return new Promise(resolve => {
 		// fetch text
