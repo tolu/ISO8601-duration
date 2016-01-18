@@ -1,6 +1,6 @@
 {
   "name": "iso8601-duration",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Node/Js-module for parsing and making sense of ISO8601-durations",
   "main": "lib/index.js",
   "jsnext:main": "src/index.js",
@@ -49,6 +49,8 @@
     ],
     "failFast": true,
     "verbose": true,
-    "require": ["babel-core/register"]
+    "require": [
+      "babel-core/register"
+    ]
   }
 }
