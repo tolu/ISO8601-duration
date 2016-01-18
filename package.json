@@ -6,9 +6,10 @@
   "jsnext:main": "src/index.js",
   "scripts": {
     "test": "xo && ava",
+    "watch": "onchange '**/*.js' -- npm run test",
     "compile": "babel -d lib/ src/",
     "prepublish": "npm run compile",
-    "watch": "onchange '**/*.js' -- npm run test"
+    "patch-release": "npm test && npm version patch && git push --follow-tags"
   },
   "files": [
     "src/index.js",
