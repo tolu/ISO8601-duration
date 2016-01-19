@@ -5,7 +5,16 @@ Node/Js-module for parsing and making sense of ISO8601-durations
 [![Build Status: Travis](https://img.shields.io/travis/tolu/ISO8601-duration/master.svg)][2]
 [![npm version](https://img.shields.io/npm/v/iso8601-duration.svg)][3]
 
+## The ISO8601 duration format
 
+Durations in ISO8601 comes in two formats:
+* **`PnYnMnDTnHnMnS`**  - `P<date>T<time>`  
+  The `n` is replaced by the value for each of the date and time elements that follow the `n`.  
+  Leading zeros are not required
+* **`PnW`** - the week format
+
+
+Check out the details on [Wikipedia](https://en.wikipedia.org/wiki/ISO_8601#Durations) 
 
 ## Install
 
@@ -14,11 +23,16 @@ $ npm install iso8601-duration
 ```
 
 ## Usage
+Most noteworthy of the interface is the ability to provide a `date` for `toSeconds`-calculations.  
+Why becomes evident when working with durations that span dates as all months are not equally long.  
+E.g January of 2016 is **744 hours** compared to the **696 hours** of February 2016.  
+
+If a date is not provided for `toSeconds` the timestamp `Date.now()` is used as baseline. 
 
 ### Interface
 
 ```js
-export const toSeconds; // fn = obj => number
+export const toSeconds; // fn = (obj, date?) => number
 export const pattern;   // ISO8601 RegExp
 export const parse;     // fn = string => obj
 export default {
@@ -29,6 +43,28 @@ export default {
 ```
 
 ### Example
+Simple usage
+```js
+import {parse, toSeconds, pattern} from 'iso8601-duration';
+
+console.log(parse('P1Y2M4DT20H44M12.67S'));
+/* outputs =>
+{
+	years: 1,
+	months: 2,
+	days: 4,
+	hours: 20,
+	minutes: 44,
+	seconds: 12.67
+}
+*/
+
+console.log( toSeconds( parse('PT1H30M10.5S') ) );
+// outputs => 5410.5
+
+```
+
+A more complete usecase / example
 ```js
 import {parse, toSeconds, pattern} from 'iso8601-duration';
 
