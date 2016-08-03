@@ -91,9 +91,10 @@ const getWithSensibleDurations = someApiEndpoint => {
 
 ```
 
+
 ## License
 
-MIT © Tobias Lundin
+MIT @ https://tolu.mit-license.org/
 
 [1]: https://github.com/sindresorhus/xo "xo on github"
 [2]: https://travis-ci.org/tolu/ISO8601-duration "travis build status"
