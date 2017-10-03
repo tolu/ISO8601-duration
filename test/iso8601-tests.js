@@ -1,5 +1,5 @@
 import test from 'ava';
-import {parse, toSeconds, pattern} from '../src/index';
+import {parse, end, toSeconds, pattern} from '../src/index';
 
 test('Parse: correctly parses data-time format', t => {
 	const time = parse('P2Y4M6DT14H30M20.42S');
@@ -22,6 +22,13 @@ test('Parse: correctly parses weeks format', t => {
 	t.same(0, time.hours);
 	t.same(0, time.minutes);
 	t.same(0, time.seconds);
+});
+
+test('end: returns the following day', t => {
+	const now = new Date();
+	const then = end(parse('P1D'), now);
+	const expectedThen = new Date(now.getTime() + 86400 * 1000);
+	t.is(then.getTime(), expectedThen.getTime());
 });
 
 test('toSeconds: returns simple HMS time in total seconds', t => {
