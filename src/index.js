@@ -34,16 +34,15 @@ export const parse = durationString => {
 };
 
 /**
- * Convert ISO8601 duration object to seconds
+ * Convert ISO8601 duration object to an end Date.
  *
  * @param {Object} duration - The duration object
- * @param {Date=} startDate - The starting point for calculating the duration
- * @return {Number}
+ * @param {Date} startDate - The starting Date for calculating the duration
+ * @return {Date} - The resulting end Date
  */
-export const toSeconds = (duration, startDate) => {
+export const end = (duration, startDate) => {
 	// create two equal timestamps, add duration to 'then' and return time difference
 	const timestamp = (startDate ? startDate.getTime() : Date.now());
-	const now = new Date(timestamp);
 	const then = new Date(timestamp);
 
 	then.setFullYear(then.getFullYear() + duration.years);
@@ -56,11 +55,27 @@ export const toSeconds = (duration, startDate) => {
 	// special case weeks
 	then.setDate(then.getDate() + (duration.weeks * 7));
 
+	return then;
+};
+
+/**
+ * Convert ISO8601 duration object to seconds
+ *
+ * @param {Object} duration - The duration object
+ * @param {Date} startDate - The starting point for calculating the duration
+ * @return {Number}
+ */
+export const toSeconds = (duration, startDate) => {
+	const timestamp = (startDate ? startDate.getTime() : Date.now());
+	const now = new Date(timestamp);
+	const then = end(duration, startDate);
+
 	const seconds = (then.getTime() - now.getTime()) / 1000;
 	return seconds;
 };
 
 export default {
+	end,
 	toSeconds,
 	pattern,
 	parse

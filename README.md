@@ -45,7 +45,7 @@ export default {
 ### Example
 Simple usage
 ```js
-import {parse, toSeconds, pattern} from 'iso8601-duration';
+import {parse, end, toSeconds, pattern} from 'iso8601-duration';
 
 console.log(parse('P1Y2M4DT20H44M12.67S'));
 /* outputs =>
@@ -61,6 +61,9 @@ console.log(parse('P1Y2M4DT20H44M12.67S'));
 
 console.log( toSeconds( parse('PT1H30M10.5S') ) );
 // outputs => 5410.5
+
+console.log ( end( parse('P1D') ) );
+// outputs => DateObj 2017-10-04T10:14:50.190Z
 
 ```
 
