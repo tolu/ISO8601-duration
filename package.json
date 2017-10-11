@@ -8,7 +8,7 @@
     "test": "xo && ava",
     "watch": "onchange '**/*.js' -- npm run test",
     "compile": "babel -d lib/ src/",
-    "prepublish": "npm run compile",
+    "prepublishOnly": "npm run compile",
     "patch-release": "npm test && npm version patch && git push --follow-tags"
   },
   "files": [
