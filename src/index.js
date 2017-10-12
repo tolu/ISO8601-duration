@@ -8,30 +8,30 @@
  */
 
 // PnYnMnDTnHnMnS
-const numbers = '\\d+(?:[\\.,]\\d{0,3})?';
-const weekPattern = `(${numbers}W)`;
-const datePattern = `(${numbers}Y)?(${numbers}M)?(${numbers}D)?`;
-const timePattern = `T(${numbers}H)?(${numbers}M)?(${numbers}S)?`;
+const numbers = '\\d+(?:[\\.,]\\d{0,3})?'
+const weekPattern = `(${numbers}W)`
+const datePattern = `(${numbers}Y)?(${numbers}M)?(${numbers}D)?`
+const timePattern = `T(${numbers}H)?(${numbers}M)?(${numbers}S)?`
 
-const iso8601 = `P(?:${weekPattern}|${datePattern}(?:${timePattern})?)`;
-const objMap = ['weeks', 'years', 'months', 'days', 'hours', 'minutes', 'seconds'];
+const iso8601 = `P(?:${weekPattern}|${datePattern}(?:${timePattern})?)`
+const objMap = ['weeks', 'years', 'months', 'days', 'hours', 'minutes', 'seconds']
 
 /**
  * The ISO8601 regex for matching / testing durations
  */
-export const pattern = new RegExp(iso8601);
+export const pattern = new RegExp(iso8601)
 
 /** Parse PnYnMnDTnHnMnS format to object
  * @param {string} durationString - PnYnMnDTnHnMnS formatted string
  * @return {Object} - With a property for each part of the pattern
  */
 export const parse = durationString => {
-	// slice away first entry in match-array
-	return durationString.match(pattern).slice(1).reduce((prev, next, idx) => {
-		prev[objMap[idx]] = parseFloat(next) || 0;
-		return prev;
-	}, {});
-};
+  // Slice away first entry in match-array
+  return durationString.match(pattern).slice(1).reduce((prev, next, idx) => {
+    prev[objMap[idx]] = parseFloat(next) || 0
+    return prev
+  }, {})
+}
 
 /**
  * Convert ISO8601 duration object to an end Date.
@@ -41,22 +41,22 @@ export const parse = durationString => {
  * @return {Date} - The resulting end Date
  */
 export const end = (duration, startDate) => {
-	// create two equal timestamps, add duration to 'then' and return time difference
-	const timestamp = (startDate ? startDate.getTime() : Date.now());
-	const then = new Date(timestamp);
+  // Create two equal timestamps, add duration to 'then' and return time difference
+  const timestamp = (startDate ? startDate.getTime() : Date.now())
+  const then = new Date(timestamp)
 
-	then.setFullYear(then.getFullYear() + duration.years);
-	then.setMonth(then.getMonth() + duration.months);
-	then.setDate(then.getDate() + duration.days);
-	then.setHours(then.getHours() + duration.hours);
-	then.setMinutes(then.getMinutes() + duration.minutes);
-	// then.setSeconds(then.getSeconds() + duration.seconds);
-	then.setMilliseconds(then.getMilliseconds() + (duration.seconds * 1000));
-	// special case weeks
-	then.setDate(then.getDate() + (duration.weeks * 7));
+  then.setFullYear(then.getFullYear() + duration.years)
+  then.setMonth(then.getMonth() + duration.months)
+  then.setDate(then.getDate() + duration.days)
+  then.setHours(then.getHours() + duration.hours)
+  then.setMinutes(then.getMinutes() + duration.minutes)
+  // Then.setSeconds(then.getSeconds() + duration.seconds);
+  then.setMilliseconds(then.getMilliseconds() + (duration.seconds * 1000))
+  // Special case weeks
+  then.setDate(then.getDate() + (duration.weeks * 7))
 
-	return then;
-};
+  return then
+}
 
 /**
  * Convert ISO8601 duration object to seconds
@@ -66,17 +66,17 @@ export const end = (duration, startDate) => {
  * @return {Number}
  */
 export const toSeconds = (duration, startDate) => {
-	const timestamp = (startDate ? startDate.getTime() : Date.now());
-	const now = new Date(timestamp);
-	const then = end(duration, startDate);
+  const timestamp = (startDate ? startDate.getTime() : Date.now())
+  const now = new Date(timestamp)
+  const then = end(duration, startDate)
 
-	const seconds = (then.getTime() - now.getTime()) / 1000;
-	return seconds;
-};
+  const seconds = (then.getTime() - now.getTime()) / 1000
+  return seconds
+}
 
 export default {
-	end,
-	toSeconds,
-	pattern,
-	parse
-};
+  end,
+  toSeconds,
+  pattern,
+  parse
+}
