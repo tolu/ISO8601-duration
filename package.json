@@ -5,6 +5,7 @@
   "main": "lib/index.js",
   "jsnext:main": "src/index.js",
   "scripts": {
+    "lint": "xo",
     "test": "xo && ava",
     "watch": "onchange '**/*.js' -- npm run test",
     "compile": "babel -d lib/ src/",
@@ -31,17 +32,18 @@
   },
   "homepage": "https://github.com/tolu/ISO8601-duration#readme",
   "devDependencies": {
-    "ava": "^0.10.0",
+    "ava": "^0.22.0",
     "babel-cli": "^6.4.0",
     "babel-preset-es2015": "^6.3.13",
-    "onchange": "^2.0.0",
-    "xo": "^0.12.1"
+    "onchange": "^3.2.1",
+    "xo": "^0.18.2"
   },
   "xo": {
     "esnext": true,
     "ignore": [
       "lib/*.js"
-    ]
+    ],
+    "space": true
   },
   "ava": {
     "files": [
