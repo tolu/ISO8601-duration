@@ -1,19 +1,20 @@
 language: node_js
 node_js:
-- '7'
+- '8'
 - '6'
 before_install:
 - npm i -g npm@latest
 jobs:
   include:
-    - stage: npm release
-      node_js: '7'
-      deploy:
-        provider: npm
-        email: tobias.lundin@gmail.com
-        api_key: $NPM_TOKEN
-        skip_cleanup: true
-        on:
-          tags: true
-          repo: tolu/ISO8601-duration
-          branch: master
+  - stage: npm release
+    node_js: '8'
+    deploy:
+      provider: npm
+      email: tobias.lundin@gmail.com
+      api_key:
+        secure: Ws23UHDCaIU7NiadyaS4tQJk1qjJe6SQaSCYXkFYH+kRZBh+k3OLfYBNBdYNcdgyNembB1JiGQzE5bE/eVVz+c8B4tX0fWDb69jc9suRfd84BnnwJbRuvXMOz9Ftl80C28b1SuGaKccPCeMP2iENLkAIi7I0LwVlgy6gUoVohmFq3V7YhWe7VLkpoUu8PA/TZqZv7E9GIaEH0vOXJLtEEeCNbnbzRdhU4ovCSbj9PxPESwktqU0dQVwBu4AUR6hmYAOkE8M0fcXYqGv2IpcuWplkr7PBbRCH22THoaxNO9ZdEFDXstTL9NIa8fYNFAf5sTKEvWo5fYuYDHITu4ckdj8/PG1l5lB2TrkREbKCOSDiK4BtZiE4vlFVBEXmLD8MV3oqDy5aQWpiUDJgiJfiGMawjIM3jJ1SaJc7PVIrO8M4CptQTR8oYwOyhIHQTOS34+H4WsOzXaaAJVu6bLBQWigfDYoL7w4NRRsY7ZrkEvvgs3nfWja740NA0CIXid9Cd9fzDA7ju8RRHADjYIUIrdNIBL2ZU00AaoHFeCxMrZvdpCt/OG6bh2UAR8qR+94Ri4IgaHIkC8xNLNeFXycAmcScXD6UXMQbSfL8hjBJIgA1ztyE2XD50qwn65eaJ1r14st4HMgi5QVPc25VSuBDaOFHG84TY0tKfvhRKLFjoh0=
+      skip_cleanup: true
+      on:
+        tags: true
+        repo: tolu/ISO8601-duration
+        branch: master
