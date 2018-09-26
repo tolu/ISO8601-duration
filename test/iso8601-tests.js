@@ -23,6 +23,24 @@ test('Parse: correctly parses weeks format', t => {
   t.is(time.seconds, 0)
 })
 
+test('Parse: handles undefined input', t => {
+  const time = parse()
+
+  t.is(time, {})
+})
+
+test('Parse: handles empty string', t => {
+  const time = parse('')
+
+  t.is(time, {})
+})
+
+test('Parse: handles non-iso8601 string', t => {
+  const time = parse('GarBidg3')
+
+  t.is(time, {})
+})
+
 test('end: returns the following day', t => {
   const now = new Date()
   const then = end(parse('P1D'), now)
