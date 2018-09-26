@@ -31,9 +31,9 @@ export const parse = durationString => {
     return durationString.match(pattern).slice(1).reduce((prev, next, idx) => {
       prev[objMap[idx]] = parseFloat(next) || 0
       return prev
-    }, {});
-  } catch {
-    return {};
+    }, {})
+  } catch (e) {
+    return {}
   }
 }
 
