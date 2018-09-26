@@ -26,19 +26,19 @@ test('Parse: correctly parses weeks format', t => {
 test('Parse: handles undefined input', t => {
   const time = parse()
 
-  t.is(time, {})
+  t.deepEqual(time, {})
 })
 
 test('Parse: handles empty string', t => {
   const time = parse('')
 
-  t.is(time, {})
+  t.deepEqual(time, {})
 })
 
 test('Parse: handles non-iso8601 string', t => {
   const time = parse('GarBidg3')
 
-  t.is(time, {})
+  t.deepEqual(time, {})
 })
 
 test('end: returns the following day', t => {
