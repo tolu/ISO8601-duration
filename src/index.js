@@ -27,10 +27,14 @@ export const pattern = new RegExp(iso8601)
  */
 export const parse = durationString => {
   // Slice away first entry in match-array
-  return durationString.match(pattern).slice(1).reduce((prev, next, idx) => {
-    prev[objMap[idx]] = parseFloat(next) || 0
-    return prev
-  }, {})
+  try {
+    return durationString.match(pattern).slice(1).reduce((prev, next, idx) => {
+      prev[objMap[idx]] = parseFloat(next) || 0
+      return prev
+    }, {});
+  } catch {
+    return {};
+  }
 }
 
 /**
