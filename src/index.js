@@ -68,7 +68,7 @@ export const end = (duration, startDate) => {
 export const toSeconds = (duration, startDate) => {
   const timestamp = (startDate ? startDate.getTime() : Date.now())
   const now = new Date(timestamp)
-  const then = end(duration, startDate)
+  const then = end(duration, now)
 
   const seconds = (then.getTime() - now.getTime()) / 1000
   return seconds
