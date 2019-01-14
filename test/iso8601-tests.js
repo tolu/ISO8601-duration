@@ -93,3 +93,20 @@ test('usage example test', t => {
   t.is(result.foo.duration, 3600 + (30 * 60) + 25)
   t.is(result.bar.duration, (43 * 60) + 58.72)
 })
+
+test('expose vulnerable time calculation in toSeconds', t => {
+  const dur = {
+    weeks: 0,
+    years: 0,
+    months: 0,
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  }
+
+  Array.from({ length: 10000 }, () => {
+    const sec = toSeconds(dur)
+    t.is(sec, 0)
+  })
+})
