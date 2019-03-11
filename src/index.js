@@ -8,7 +8,7 @@
  */
 
 // PnYnMnDTnHnMnS
-const numbers = '\\d+(?:[\\.,]\\d{0,3})?'
+const numbers = '\\d+(?:[\\.,]\\d+)?'
 const weekPattern = `(${numbers}W)`
 const datePattern = `(${numbers}Y)?(${numbers}M)?(${numbers}D)?`
 const timePattern = `T(${numbers}H)?(${numbers}M)?(${numbers}S)?`
