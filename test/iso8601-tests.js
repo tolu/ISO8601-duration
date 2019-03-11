@@ -23,6 +23,18 @@ test('Parse: correctly parses weeks format', t => {
   t.is(time.seconds, 0)
 })
 
+test('parse: allow any number of decimals', t => {
+  const time = parse('PT16.239999S')
+
+  t.is(time.weeks, 0)
+  t.is(time.years, 0)
+  t.is(time.months, 0)
+  t.is(time.days, 0)
+  t.is(time.hours, 0)
+  t.is(time.minutes, 0)
+  t.is(time.seconds, 16.239999)
+})
+
 test('end: returns the following day', t => {
   const now = new Date()
   const then = end(parse('P1D'), now)
