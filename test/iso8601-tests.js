@@ -122,3 +122,11 @@ test('expose vulnerable time calculation in toSeconds', t => {
     t.is(sec, 0)
   })
 })
+
+test('optional arguments for time calculation in toSeconds', t => {
+  const sec = toSeconds({
+    minutes: 3
+  })
+
+  t.is(sec, 180)
+})

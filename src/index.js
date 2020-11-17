@@ -45,15 +45,15 @@ export const end = (duration, startDate) => {
   const timestamp = (startDate ? startDate.getTime() : Date.now())
   const then = new Date(timestamp)
 
-  then.setFullYear(then.getFullYear() + duration.years)
-  then.setMonth(then.getMonth() + duration.months)
-  then.setDate(then.getDate() + duration.days)
-  then.setHours(then.getHours() + duration.hours)
-  then.setMinutes(then.getMinutes() + duration.minutes)
+  then.setFullYear(then.getFullYear() + (duration.years || 0))
+  then.setMonth(then.getMonth() + (duration.months || 0))
+  then.setDate(then.getDate() + (duration.days || 0))
+  then.setHours(then.getHours() + (duration.hours || 0))
+  then.setMinutes(then.getMinutes() + (duration.minutes || 0))
   // Then.setSeconds(then.getSeconds() + duration.seconds);
-  then.setMilliseconds(then.getMilliseconds() + (duration.seconds * 1000))
+  then.setMilliseconds(then.getMilliseconds() + ((duration.seconds || 0) * 1000))
   // Special case weeks
-  then.setDate(then.getDate() + (duration.weeks * 7))
+  then.setDate(then.getDate() + ((duration.weeks || 0) * 7))
 
   return then
 }
