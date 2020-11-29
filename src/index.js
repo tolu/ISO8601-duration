@@ -16,6 +16,16 @@ const timePattern = `T(${numbers}H)?(${numbers}M)?(${numbers}S)?`
 const iso8601 = `P(?:${weekPattern}|${datePattern}(?:${timePattern})?)`
 const objMap = ['weeks', 'years', 'months', 'days', 'hours', 'minutes', 'seconds']
 
+const defaultDuration = Object.freeze({
+  years: 0,
+  months: 0,
+  weeks: 0,
+  days: 0,
+  hours: 0,
+  minutes: 0,
+  seconds: 0
+})
+
 /**
  * The ISO8601 regex for matching / testing durations
  */
@@ -41,6 +51,8 @@ export const parse = durationString => {
  * @return {Date} - The resulting end Date
  */
 export const end = (duration, startDate) => {
+  duration = Object.assign({}, defaultDuration, duration)
+
   // Create two equal timestamps, add duration to 'then' and return time difference
   const timestamp = (startDate ? startDate.getTime() : Date.now())
   const then = new Date(timestamp)
@@ -66,6 +78,8 @@ export const end = (duration, startDate) => {
  * @return {Number}
  */
 export const toSeconds = (duration, startDate) => {
+  duration = Object.assign({}, defaultDuration, duration)
+
   const timestamp = (startDate ? startDate.getTime() : Date.now())
   const now = new Date(timestamp)
   const then = end(duration, now)
