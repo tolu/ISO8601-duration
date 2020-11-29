@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "ES5",
+    "outDir": "lib",
+    "noEmit": false,
+    "declaration": true,
+  },
+  "files": ["src/index.ts"]
+}

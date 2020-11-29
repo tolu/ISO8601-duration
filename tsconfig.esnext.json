@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.es2015.json",
+  "compilerOptions": {
+    "target": "ESNext",
+    "outDir": "lib/esnext",
+    "noEmit": false,
+    "declaration": false,
+  },
+  "files": ["src/index.ts"]
+}

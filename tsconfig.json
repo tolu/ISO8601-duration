@@ -1,23 +1,13 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "lib": [
-      "es6"
-    ],
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "baseUrl": "../",
-    "typeRoots": [
-      "../"
-    ],
-    "types": [],
+    "lib": ["ESNext"],
+    "strict": true,
     "noEmit": true,
     "forceConsistentCasingInFileNames": true
   },
-  "files": [
-    "index.d.ts",
-    "test/type-tests.ts"
+  "exclude": [
+    "lib",
+    "node_modules"
   ]
 }
