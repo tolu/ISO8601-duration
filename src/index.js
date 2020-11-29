@@ -16,6 +16,16 @@ const timePattern = `T(${numbers}H)?(${numbers}M)?(${numbers}S)?`
 const iso8601 = `P(?:${weekPattern}|${datePattern}(?:${timePattern})?)`
 const objMap = ['weeks', 'years', 'months', 'days', 'hours', 'minutes', 'seconds']
 
+const defaultDuration = Object.freeze({
+  years: 0,
+  months: 0,
+  weeks: 0,
+  days: 0,
+  hours: 0,
+  minutes: 0,
+  seconds: 0
+})
+
 /**
  * The ISO8601 regex for matching / testing durations
  */
@@ -41,19 +51,21 @@ export const parse = durationString => {
  * @return {Date} - The resulting end Date
  */
 export const end = (duration, startDate) => {
+  duration = Object.assign({}, defaultDuration, duration)
+
   // Create two equal timestamps, add duration to 'then' and return time difference
   const timestamp = (startDate ? startDate.getTime() : Date.now())
   const then = new Date(timestamp)
 
-  then.setFullYear(then.getFullYear() + (duration.years || 0))
-  then.setMonth(then.getMonth() + (duration.months || 0))
-  then.setDate(then.getDate() + (duration.days || 0))
-  then.setHours(then.getHours() + (duration.hours || 0))
-  then.setMinutes(then.getMinutes() + (duration.minutes || 0))
+  then.setFullYear(then.getFullYear() + duration.years)
+  then.setMonth(then.getMonth() + duration.months)
+  then.setDate(then.getDate() + duration.days)
+  then.setHours(then.getHours() + duration.hours)
+  then.setMinutes(then.getMinutes() + duration.minutes)
   // Then.setSeconds(then.getSeconds() + duration.seconds);
-  then.setMilliseconds(then.getMilliseconds() + ((duration.seconds || 0) * 1000))
+  then.setMilliseconds(then.getMilliseconds() + (duration.seconds * 1000))
   // Special case weeks
-  then.setDate(then.getDate() + ((duration.weeks || 0) * 7))
+  then.setDate(then.getDate() + (duration.weeks * 7))
 
   return then
 }
@@ -66,6 +78,8 @@ export const end = (duration, startDate) => {
  * @return {Number}
  */
 export const toSeconds = (duration, startDate) => {
+  duration = Object.assign({}, defaultDuration, duration)
+
   const timestamp = (startDate ? startDate.getTime() : Date.now())
   const now = new Date(timestamp)
   const then = end(duration, now)
