@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/ban-ts-comment */
 import test from 'ava'
-import {parse, end, toSeconds, pattern} from '../src/index'
+import { parse, end, toSeconds, pattern } from '../src/index'
 
 test('Parse: correctly parses data-time format', t => {
   const time = parse('P2Y4M6DT14H30M20.42S')
@@ -37,7 +38,7 @@ test('parse: allow any number of decimals', t => {
 
 test('end: returns the following day', t => {
   const now = new Date()
-  const then = end(parse('P1D'), now)
+  const then = end(parse('P1D') as any, now)
   const expectedThen = new Date(now.getTime() + (86400 * 1000))
   t.is(then.getTime(), expectedThen.getTime())
 })
@@ -90,13 +91,13 @@ test('toSeconds: with supplied start date', t => {
 test('usage example test', t => {
   // Arrange
   const jsonString = JSON.stringify({
-    foo: {duration: 'PT1H30M25S'},
-    bar: {duration: 'PT43M58.72S'}
+    foo: { duration: 'PT1H30M25S' },
+    bar: { duration: 'PT43M58.72S' }
   })
   // Create new regex from pattern and include surrounding double-quotes
   const globalRegex = new RegExp(`\\"${pattern.source}\\"`, 'g')
 
-  // Act
+  // @ts-ignore Act
   const result = JSON.parse(jsonString.replace(globalRegex, m => {
     return toSeconds(parse(m))
   }))
@@ -117,7 +118,7 @@ test('expose vulnerable time calculation in toSeconds', t => {
     seconds: 0
   }
 
-  Array.from({ length: 10000 }, () => {
+  Array.from({ length: 10000 }).forEach(() => {
     const sec = toSeconds(dur)
     t.is(sec, 0)
   })
