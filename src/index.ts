@@ -7,6 +7,17 @@
  * This does not cover the week format PnW.
  */
 
+export interface Duration {
+  years: number;
+  months: number;
+  weeks: number;
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+export type PartialDuration = Partial<Duration>;
+
 // PnYnMnDTnHnMnS
 const numbers = '\\d+(?:[\\.,]\\d+)?'
 const weekPattern = `(${numbers}W)`
@@ -14,33 +25,30 @@ const datePattern = `(${numbers}Y)?(${numbers}M)?(${numbers}D)?`
 const timePattern = `T(${numbers}H)?(${numbers}M)?(${numbers}S)?`
 
 const iso8601 = `P(?:${weekPattern}|${datePattern}(?:${timePattern})?)`
-const objMap = ['weeks', 'years', 'months', 'days', 'hours', 'minutes', 'seconds']
+const objMap = ['weeks', 'years', 'months', 'days', 'hours', 'minutes', 'seconds'] as const
 
 /**
  * The ISO8601 regex for matching / testing durations
  */
 export const pattern = new RegExp(iso8601)
 
-/** Parse PnYnMnDTnHnMnS format to object
- * @param {string} durationString - PnYnMnDTnHnMnS formatted string
- * @return {Object} - With a property for each part of the pattern
+/**
+ * Parse PnYnMnDTnHnMnS format to object
  */
-export const parse = durationString => {
+export const parse = (durationString: string): PartialDuration => {
   // Slice away first entry in match-array
+  // eslint-disable-next-line
+  // @ts-ignore
   return durationString.match(pattern).slice(1).reduce((prev, next, idx) => {
     prev[objMap[idx]] = parseFloat(next) || 0
     return prev
-  }, {})
+  }, {} as PartialDuration)
 }
 
 /**
  * Convert ISO8601 duration object to an end Date.
- *
- * @param {Object} duration - The duration object
- * @param {Date} startDate - The starting Date for calculating the duration
- * @return {Date} - The resulting end Date
  */
-export const end = (duration, startDate) => {
+export const end = (duration: Duration, startDate?: Date): Date => {
   // Create two equal timestamps, add duration to 'then' and return time difference
   const timestamp = (startDate ? startDate.getTime() : Date.now())
   const then = new Date(timestamp)
@@ -60,15 +68,11 @@ export const end = (duration, startDate) => {
 
 /**
  * Convert ISO8601 duration object to seconds
- *
- * @param {Object} duration - The duration object
- * @param {Date} startDate - The starting point for calculating the duration
- * @return {Number}
  */
-export const toSeconds = (duration, startDate) => {
+export const toSeconds = (duration: PartialDuration, startDate?: Date): number => {
   const timestamp = (startDate ? startDate.getTime() : Date.now())
   const now = new Date(timestamp)
-  const then = end(duration, now)
+  const then = end(duration as Duration, now)
 
   const seconds = (then.getTime() - now.getTime()) / 1000
   return seconds
