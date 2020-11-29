@@ -43,6 +43,16 @@ test('end: returns the following day', t => {
   t.is(then.getTime(), expectedThen.getTime())
 })
 
+test('end: accepts partial duration', t => {
+  const value = end({ minutes: 1 } as any);
+  t.false(isNaN(value.getDate()));
+})
+
+test('toSeconds: accepts partial duration', t => {
+  const value = toSeconds({ minutes: 1 } as any);
+  t.is(value, 60);
+})
+
 test('toSeconds: returns simple HMS time in total seconds', t => {
   const res = toSeconds(parse('PT1H2M5.512S'))
   const expected = 3600 + (2 * 60) + 5.512
