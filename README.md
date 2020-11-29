@@ -1,9 +1,9 @@
 # ISO8601-duration
 Node/Js-module for parsing and making sense of ISO8601-durations
 
-[![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)][1]
-[![Build Status: Travis](https://img.shields.io/travis/tolu/ISO8601-duration/master.svg)][2]
-[![npm version](https://img.shields.io/npm/v/iso8601-duration.svg)][3]
+[![Build Status: Travis](https://img.shields.io/travis/tolu/ISO8601-duration/master.svg)][travis]
+[![npm version](https://img.shields.io/npm/v/iso8601-duration.svg)][npm]
+![npm bundle size][bundlephobia]
 
 ## The ISO8601 duration format
 
@@ -99,6 +99,6 @@ const getWithSensibleDurations = someApiEndpoint => {
 
 MIT @ https://tolu.mit-license.org/
 
-[1]: https://github.com/sindresorhus/xo "xo on github"
-[2]: https://travis-ci.org/tolu/ISO8601-duration "travis build status"
-[3]: https://www.npmjs.com/package/iso8601-duration "npm package"
+[travis]: https://travis-ci.org/tolu/ISO8601-duration "travis build status"
+[npm]: https://www.npmjs.com/package/iso8601-duration "npm package"
+[bundlephobia]: https://img.shields.io/bundlephobia/minzip/iso8601-duration
