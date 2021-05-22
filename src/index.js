@@ -12,8 +12,9 @@ const numbers = '\\d+(?:[\\.,]\\d+)?'
 const weekPattern = `(${numbers}W)`
 const datePattern = `(${numbers}Y)?(${numbers}M)?(${numbers}D)?`
 const timePattern = `T(${numbers}H)?(${numbers}M)?(${numbers}S)?`
+const lookahead = `(?=${numbers}W|${numbers}[YMD]|T${numbers}[HMS])`
 
-const iso8601 = `P(?:${weekPattern}|${datePattern}(?:${timePattern})?)`
+const iso8601 = `P${lookahead}(?:${weekPattern}|${datePattern}(?:${timePattern})?)`
 const objMap = ['weeks', 'years', 'months', 'days', 'hours', 'minutes', 'seconds']
 
 const defaultDuration = Object.freeze({

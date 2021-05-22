@@ -35,6 +35,29 @@ test('parse: allow any number of decimals', t => {
   t.is(time.seconds, 16.239999)
 })
 
+test('parse: disallow parsing P only', t => {
+  // P and PT only fail.
+  t.false(pattern.test('P'))
+  t.false(pattern.test('PT'))
+
+  // But weeks or other correct ones pass.
+  t.true(pattern.test('P1W'))
+  t.true(pattern.test('P1Y'))
+  t.true(pattern.test('P1M'))
+  t.true(pattern.test('P1D'))
+  t.true(pattern.test('P1Y1M'))
+  t.true(pattern.test('P1Y1D'))
+  t.true(pattern.test('P1M1D'))
+  t.true(pattern.test('P1Y1M1D'))
+  t.true(pattern.test('PT1H'))
+  t.true(pattern.test('PT1M'))
+  t.true(pattern.test('PT1S'))
+  t.true(pattern.test('PT1H1M'))
+  t.true(pattern.test('PT1H1S'))
+  t.true(pattern.test('PT1H1M1S'))
+  t.true(pattern.test('P1Y1M1DT1H1M1S'))
+})
+
 test('end: returns the following day', t => {
   const now = new Date()
   const then = end(parse('P1D'), now)
