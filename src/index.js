@@ -1,12 +1,12 @@
+// @flow
 /**
  * @description A module for parsing ISO8601 durations
  */
-
+import type { Duration } from './flow-types'
 /**
  * The pattern used for parsing ISO8601 duration (PnYnMnDTnHnMnS).
  * This does not cover the week format PnW.
  */
-
 // PnYnMnDTnHnMnS
 const numbers = '\\d+(?:[\\.,]\\d+)?'
 const weekPattern = `(${numbers}W)`
@@ -16,7 +16,7 @@ const timePattern = `T(${numbers}H)?(${numbers}M)?(${numbers}S)?`
 const iso8601 = `P(?:${weekPattern}|${datePattern}(?:${timePattern})?)`
 const objMap = ['weeks', 'years', 'months', 'days', 'hours', 'minutes', 'seconds']
 
-const defaultDuration = Object.freeze({
+const defaultDuration: Duration = Object.freeze({
   years: 0,
   months: 0,
   weeks: 0,
@@ -29,62 +29,63 @@ const defaultDuration = Object.freeze({
 /**
  * The ISO8601 regex for matching / testing durations
  */
-export const pattern = new RegExp(iso8601)
+export const pattern: RegExp = new RegExp(iso8601)
 
-/** Parse PnYnMnDTnHnMnS format to object
+/** Parse PnYnMnDTnHnMnS format to Duration
  * @param {string} durationString - PnYnMnDTnHnMnS formatted string
- * @return {Object} - With a property for each part of the pattern
+ * @return {Duration} - With a property for each part of the pattern
  */
-export const parse = durationString => {
+export const parse = (durationString: string): Duration => {
   // Slice away first entry in match-array
-  return durationString.match(pattern).slice(1).reduce((prev, next, idx) => {
+  return durationString.match(pattern)?.slice(1).reduce((prev, next, idx) => {
     prev[objMap[idx]] = parseFloat(next) || 0
     return prev
-  }, {})
+  }, {}) || { ...defaultDuration }
 }
 
 /**
- * Convert ISO8601 duration object to an end Date.
+ * Convert ISO8601 duration Duration to an end Date.
  *
- * @param {Object} duration - The duration object
+ * @param {Duration} duration - The duration instance
  * @param {Date} startDate - The starting Date for calculating the duration
  * @return {Date} - The resulting end Date
  */
-export const end = (duration, startDate) => {
+export const end = (duration: Duration, startDate: Date): Date => {
   duration = Object.assign({}, defaultDuration, duration)
 
   // Create two equal timestamps, add duration to 'then' and return time difference
-  const timestamp = (startDate ? startDate.getTime() : Date.now())
-  const then = new Date(timestamp)
+  const timestamp: number = (startDate ? startDate.getTime() : Date.now())
+  const then: Date = new Date(timestamp)
+  const { years = 0, months = 0, days = 0, hours = 0, minutes = 0, seconds = 0, weeks = 0 } = duration
 
-  then.setFullYear(then.getFullYear() + duration.years)
-  then.setMonth(then.getMonth() + duration.months)
-  then.setDate(then.getDate() + duration.days)
-  then.setHours(then.getHours() + duration.hours)
-  then.setMinutes(then.getMinutes() + duration.minutes)
-  // Then.setSeconds(then.getSeconds() + duration.seconds);
-  then.setMilliseconds(then.getMilliseconds() + (duration.seconds * 1000))
+  then.setFullYear(then.getFullYear() + years)
+  then.setMonth(then.getMonth() + months)
+  then.setDate(then.getDate() + days)
+  then.setHours(then.getHours() + hours)
+  then.setMinutes(then.getMinutes() + minutes)
+  then.setMilliseconds(then.getMilliseconds() + (seconds * 1000))
   // Special case weeks
-  then.setDate(then.getDate() + (duration.weeks * 7))
+  then.setDate(then.getDate() + (weeks * 7))
 
   return then
 }
 
 /**
- * Convert ISO8601 duration object to seconds
+ * Convert ISO8601 Duration to seconds
  *
- * @param {Object} duration - The duration object
+ * @param {Duration} duration - The duration instance
  * @param {Date} startDate - The starting point for calculating the duration
- * @return {Number}
+ * @return {number}
  */
-export const toSeconds = (duration, startDate) => {
+export const toSeconds = (duration: Duration, startDate?: Date): number => {
   duration = Object.assign({}, defaultDuration, duration)
 
-  const timestamp = (startDate ? startDate.getTime() : Date.now())
-  const now = new Date(timestamp)
-  const then = end(duration, now)
+  const timestamp: number = (startDate ? startDate.getTime() : Date.now())
+  const now: Date = new Date(timestamp)
+  const then: Date = end(duration, now)
 
-  const seconds = (then.getTime() - now.getTime()) / 1000
+  const seconds: number = (then.getTime() - now.getTime()) / 1000
+
   return seconds
 }
 

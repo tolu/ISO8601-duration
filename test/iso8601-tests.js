@@ -1,5 +1,6 @@
+// @flow
 import test from 'ava'
-import {parse, end, toSeconds, pattern} from '../src/index'
+import { parse, end, toSeconds, pattern } from '../src/index'
 
 test('Parse: correctly parses data-time format', t => {
   const time = parse('P2Y4M6DT14H30M20.42S')
@@ -90,15 +91,15 @@ test('toSeconds: with supplied start date', t => {
 test('usage example test', t => {
   // Arrange
   const jsonString = JSON.stringify({
-    foo: {duration: 'PT1H30M25S'},
-    bar: {duration: 'PT43M58.72S'}
+    foo: { duration: 'PT1H30M25S' },
+    bar: { duration: 'PT43M58.72S' }
   })
   // Create new regex from pattern and include surrounding double-quotes
   const globalRegex = new RegExp(`\\"${pattern.source}\\"`, 'g')
 
   // Act
   const result = JSON.parse(jsonString.replace(globalRegex, m => {
-    return toSeconds(parse(m))
+    return toSeconds(parse(m)).toString()
   }))
 
   // Assert
@@ -120,6 +121,8 @@ test('expose vulnerable time calculation in toSeconds', t => {
   Array.from({ length: 10000 }, () => {
     const sec = toSeconds(dur)
     t.is(sec, 0)
+
+    return sec
   })
 })
 
