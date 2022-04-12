@@ -1,25 +1,20 @@
 {
   "compilerOptions": {
-    "allowJs": true,
     "module": "commonjs",
     "lib": ["esnext"],
     "target": "ES5",
     "strict": true,
     "outDir": "lib",
     "declaration": true,
-    "forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "src/**/*"
-  ],
+  "include": ["src/**/*"],
   // Required for uvu tests using "-r ts-node/register"
   "ts-node": {
     "transpileOnly": true,
     "compilerOptions": {
-        "module": "commonjs",
+      "module": "commonjs"
     },
-    "include": [
-      "./**/*"
-    ],
+    "include": ["./**/*"]
   }
 }

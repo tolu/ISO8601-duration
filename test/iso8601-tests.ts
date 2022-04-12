@@ -1,5 +1,5 @@
-import { test } from 'uvu';
-import * as assert from 'uvu/assert';
+import { test } from "uvu";
+import * as assert from "uvu/assert";
 import { parse, end, toSeconds, pattern } from "../src/index";
 
 test("Parse: correctly parses data-time format", () => {
