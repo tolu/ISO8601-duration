@@ -14,7 +14,18 @@ const datePattern = `(${numbers}Y)?(${numbers}M)?(${numbers}D)?`;
 const timePattern = `T(${numbers}H)?(${numbers}M)?(${numbers}S)?`;
 
 const iso8601 = `P(?:${weekPattern}|${datePattern}(?:${timePattern})?)`;
-const objMap = [
+
+interface Duration {
+  years?: number;
+  months?: number;
+  weeks?: number;
+  days?: number;
+  hours?: number;
+  minutes?: number;
+  seconds?: number;
+}
+
+const objMap: (keyof Duration)[] = [
   "weeks",
   "years",
   "months",
@@ -24,7 +35,7 @@ const objMap = [
   "seconds",
 ];
 
-const defaultDuration = Object.freeze({
+const defaultDuration: Required<Duration> = Object.freeze({
   years: 0,
   months: 0,
   weeks: 0,
@@ -39,33 +50,24 @@ const defaultDuration = Object.freeze({
  */
 export const pattern = new RegExp(iso8601);
 
-/** Parse PnYnMnDTnHnMnS format to object
- * @param {string} durationString - PnYnMnDTnHnMnS formatted string
- * @return {Object} - With a property for each part of the pattern
- */
-export const parse = (durationString) => {
+/** Parse PnYnMnDTnHnMnS format to object */
+export const parse = (durationString: string): Duration => {
   // Slice away first entry in match-array
   return durationString
-    .match(pattern)
+    .match(pattern)!
     .slice(1)
     .reduce((prev, next, idx) => {
       prev[objMap[idx]] = parseFloat(next) || 0;
       return prev;
-    }, {});
+    }, {} as Duration);
 };
 
-/**
- * Convert ISO8601 duration object to an end Date.
- *
- * @param {Object} duration - The duration object
- * @param {Date} [startDate] - The starting Date for calculating the duration
- * @return {Date} - The resulting end Date
- */
-export const end = (duration, startDate) => {
-  duration = Object.assign({}, defaultDuration, duration);
+/** Convert ISO8601 duration object to an end Date. */
+export const end = (durationInput: Duration, startDate = new Date()) => {
+  const duration = Object.assign({}, defaultDuration, durationInput);
 
   // Create two equal timestamps, add duration to 'then' and return time difference
-  const timestamp = startDate ? startDate.getTime() : Date.now();
+  const timestamp = startDate.getTime();
   const then = new Date(timestamp);
 
   then.setFullYear(then.getFullYear() + duration.years);
@@ -81,17 +83,11 @@ export const end = (duration, startDate) => {
   return then;
 };
 
-/**
- * Convert ISO8601 duration object to seconds
- *
- * @param {Object} duration - The duration object
- * @param {Date} [startDate] - The starting point for calculating the duration
- * @return {Number}
- */
-export const toSeconds = (duration, startDate) => {
-  duration = Object.assign({}, defaultDuration, duration);
+/** Convert ISO8601 duration object to seconds */
+export const toSeconds = (durationInput: Duration, startDate = new Date()) => {
+  const duration = Object.assign({}, defaultDuration, durationInput);
 
-  const timestamp = startDate ? startDate.getTime() : Date.now();
+  const timestamp = startDate.getTime();
   const now = new Date(timestamp);
   const then = end(duration, now);
 
