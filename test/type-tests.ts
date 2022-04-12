@@ -1,4 +1,4 @@
-import iso8601, {parse, toSeconds, end, pattern} from '../index';
+import iso8601, {parse, toSeconds, end, pattern} from '../src/index';
 
 // Simple typescript compile test, not actually run as a test
 
