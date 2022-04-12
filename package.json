@@ -6,8 +6,9 @@
   "types": "index.d.ts",
   "jsnext:main": "src/index.js",
   "scripts": {
-    "lint": "standard | snazzy",
-    "test": "npm run lint && ava && tsc",
+    "lint": "prettier --write .",
+    "test": "npm run lint && npm run unittests && tsc",
+    "unittests": "uvu -r ts-node/register test",
     "watch": "onchange '**/*.js' -- npm run test",
     "compile": "babel -d lib/ src/",
     "prepublishOnly": "npm run compile",
@@ -34,27 +35,10 @@
   },
   "homepage": "https://github.com/tolu/ISO8601-duration#readme",
   "devDependencies": {
-    "ava": "^0.22.0",
-    "babel-cli": "^6.4.0",
-    "babel-preset-es2015": "^6.3.13",
-    "onchange": "^3.2.1",
-    "snazzy": "^7.0.0",
-    "standard": "^10.0.3",
-    "typescript": "^3.0.3"
-  },
-  "standard": {
-    "ignore": [
-      "lib/*.js"
-    ]
-  },
-  "ava": {
-    "files": [
-      "test/*.js"
-    ],
-    "failFast": true,
-    "verbose": true,
-    "require": [
-      "babel-core/register"
-    ]
+    "onchange": "^3.3.0",
+    "prettier": "^2.6.2",
+    "ts-node": "^10.7.0",
+    "typescript": "4.6.3",
+    "uvu": "^0.5.3"
   }
 }
