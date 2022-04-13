@@ -1,23 +1,20 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "lib": [
-      "es6"
-    ],
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "baseUrl": "../",
-    "typeRoots": [
-      "../"
-    ],
-    "types": [],
-    "noEmit": true,
+    "lib": ["esnext"],
+    "target": "ES5",
+    "strict": true,
+    "outDir": "lib",
+    "declaration": true,
     "forceConsistentCasingInFileNames": true
   },
-  "files": [
-    "index.d.ts",
-    "test/type-tests.ts"
-  ]
+  "include": ["src/**/*"],
+  // Required for uvu tests using "-r ts-node/register"
+  "ts-node": {
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "commonjs"
+    },
+    "include": ["./**/*"]
+  }
 }
