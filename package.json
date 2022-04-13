@@ -1,6 +1,6 @@
 {
   "name": "iso8601-duration",
-  "version": "1.3.0",
+  "version": "2.0.0-0",
   "description": "Node/Js-module for parsing and making sense of ISO8601-durations",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
