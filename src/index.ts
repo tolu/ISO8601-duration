@@ -53,25 +53,24 @@ export const pattern = new RegExp(iso8601);
 
 /** Parse PnYnMnDTnHnMnS format to object */
 export const parse = (durationString: string): Duration => {
-  const matches = durationString.replace(/,/g, '.').match(pattern);
+  const matches = durationString.replace(/,/g, ".").match(pattern);
   if (!matches) {
     throw new RangeError(`invalid duration: ${durationString}`);
   }
   // Slice away first entry in match-array (the input string)
   const slicedMatches: (string | undefined)[] = matches.slice(1);
-  if (slicedMatches.filter(v => v != null).length === 0) {
+  if (slicedMatches.filter((v) => v != null).length === 0) {
     throw new RangeError(`invalid duration: ${durationString}`);
   }
   // Check only one fraction is used
-  if (slicedMatches.filter(v => /\./.test(v || '')).length > 1) {
+  if (slicedMatches.filter((v) => /\./.test(v || "")).length > 1) {
     throw new RangeError(`only the smallest unit can be fractional`);
   }
 
-  return slicedMatches
-    .reduce((prev, next, idx) => {
-      prev[objMap[idx]] = parseFloat(next || '0') || 0;
-      return prev;
-    }, {} as Duration);
+  return slicedMatches.reduce((prev, next, idx) => {
+    prev[objMap[idx]] = parseFloat(next || "0") || 0;
+    return prev;
+  }, {} as Duration);
 };
 
 /** Convert ISO8601 duration object to an end Date. */
@@ -88,7 +87,9 @@ export const end = (durationInput: Duration, startDate = new Date()) => {
   // set time as milliseconds to get fractions working for minutes/hours
   const hoursInMs = duration.hours * 3600 * 1000;
   const minutesInMs = duration.minutes * 60 * 1000;
-  then.setMilliseconds(then.getMilliseconds() + duration.seconds * 1000 + hoursInMs + minutesInMs);
+  then.setMilliseconds(
+    then.getMilliseconds() + duration.seconds * 1000 + hoursInMs + minutesInMs
+  );
   // Special case weeks
   then.setDate(then.getDate() + duration.weeks * 7);
 

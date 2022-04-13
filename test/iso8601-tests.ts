@@ -11,7 +11,7 @@ const tryCatch = (cb) => {
     return err;
   }
   return null;
-}
+};
 
 // needed for calendar correctness
 const relativeDate = new Date();
@@ -25,23 +25,26 @@ const relativeDate = new Date();
   "P2W2D", // Temporal allows mixing weeks with other designators
   "PT0.001S",
   "P1DT2H3M4S",
-  "P2Y4M6DT14H30M20.42S"
+  "P2Y4M6DT14H30M20.42S",
 ].forEach((value) => {
   test(`Validate ok duration (${value}) against Temporal.Duration`, () => {
     assert.equal(
-      Temporal.Duration.from(value).total({ unit: "second", relativeTo: relativeDate.toISOString() }),
+      Temporal.Duration.from(value).total({
+        unit: "second",
+        relativeTo: relativeDate.toISOString(),
+      }),
       toSeconds(parse(value), relativeDate),
       `Mismatch for pattern ${value}`
     );
-  })
+  });
 });
 
 [
   "abc",
-  "",   // invalid duration
-  "P",  // invalid duration
-  "P11",// invalid duration
-  "T",  // invalid duration
+  "", // invalid duration
+  "P", // invalid duration
+  "P11", // invalid duration
+  "T", // invalid duration
   "PT", // invalid duration
   "P0.5Y", // invalid duration, cant have fractions in year/month/day
   "P0.5M", // invalid duration, cant have fractions in year/month/day
@@ -52,7 +55,11 @@ const relativeDate = new Date();
     const errExpected = tryCatch(() => Temporal.Duration.from(value));
     assert.not.equal(errExpected, null);
     const errActual = tryCatch(() => parse(value));
-    assert.not.equal(errActual, null, `Should have thrown: "${errExpected.toString()}"`);
+    assert.not.equal(
+      errActual,
+      null,
+      `Should have thrown: "${errExpected.toString()}"`
+    );
     // Assert
     assert.equal(errActual.message, errExpected.message);
   });
