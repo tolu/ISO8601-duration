@@ -4,7 +4,6 @@
   "description": "Node/Js-module for parsing and making sense of ISO8601-durations",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "jsnext:main": "src/index.js",
   "scripts": {
     "lint": "prettier --write .",
     "test": "npm run lint && npm run unittests",
@@ -15,9 +14,8 @@
     "patch-release": "npm test && npm version patch && git push --follow-tags"
   },
   "files": [
-    "src/index.js",
     "lib/index.js",
-    "index.d.ts"
+    "lib/index.d.ts"
   ],
   "repository": {
     "type": "git",
