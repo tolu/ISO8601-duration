@@ -15,7 +15,7 @@ const timePattern = `T(${numbers}H)?(${numbers}M)?(${numbers}S)?`;
 
 const iso8601 = `P(?:${weekPattern}|${datePattern}(?:${timePattern})?)`;
 
-interface Duration {
+export interface Duration {
   years?: number;
   months?: number;
   weeks?: number;
@@ -96,6 +96,7 @@ export const toSeconds = (durationInput: Duration, startDate = new Date()) => {
 };
 
 export default {
+  Duration,
   end,
   toSeconds,
   pattern,
