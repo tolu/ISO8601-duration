@@ -6,7 +6,8 @@ Node/Js-module for parsing and making sense of ISO8601-durations
 [![npm version](https://img.shields.io/npm/v/iso8601-duration.svg)][npm]
 ![npm bundle size][bundlephobia]
 
-> A new standard is on it's way, see [Temporal.Duration](https://tc39.es/proposal-temporal/docs/duration.html)
+> A new standard is on it's way, see [Temporal.Duration](https://tc39.es/proposal-temporal/docs/duration.html)  
+> Tests (most) in this module now validate against [@js-temporal/polyfill](https://www.npmjs.com/package/@js-temporal/polyfill)
 
 ## The ISO8601 duration format
 

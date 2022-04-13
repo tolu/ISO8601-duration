@@ -2,7 +2,7 @@ import { test } from "uvu";
 import * as assert from "uvu/assert";
 import { parse, end, toSeconds, pattern } from "../src/index";
 
-import { Temporal } from "proposal-temporal";
+import { Temporal } from "@js-temporal/polyfill";
 
 const tryCatch = (cb) => {
   try {
