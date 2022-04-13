@@ -1,6 +1,6 @@
 {
   "name": "iso8601-duration",
-  "version": "2.0.0",
+  "version": "1.3.0",
   "description": "Node/Js-module for parsing and making sense of ISO8601-durations",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -11,7 +11,8 @@
     "watch": "onchange '**/*.js' -- npm run test",
     "compile": "tsc",
     "prepublishOnly": "npm run compile",
-    "patch-release": "npm test && npm version patch && git push --follow-tags"
+    "release-patch": "npx np patch",
+    "release-beta": "npx np --tag=beta"
   },
   "files": [
     "lib/index.js",
