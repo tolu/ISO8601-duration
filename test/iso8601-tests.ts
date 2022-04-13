@@ -40,6 +40,7 @@ const relativeDate = new Date();
   "abc",
   "",   // invalid duration
   "P",  // invalid duration
+  "P11",// invalid duration
   "T",  // invalid duration
   "PT", // invalid duration
   "P0.5Y", // invalid duration, cant have fractions in year/month/day
