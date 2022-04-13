@@ -2,22 +2,22 @@
 
 Node/Js-module for parsing and making sense of ISO8601-durations
 
-[![Build Status: Travis](https://img.shields.io/travis/tolu/ISO8601-duration/master.svg)][travis]
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Ftolu%2Fiso8601-duration%2Fbadge&style=popout)][gh-action]
 [![npm version](https://img.shields.io/npm/v/iso8601-duration.svg)][npm]
 ![npm bundle size][bundlephobia]
 
-> A new standard is on it's way, see [Temporal.Duration](https://tc39.es/proposal-temporal/docs/duration.html)
+> A new standard is on it's way, see [Temporal.Duration](https://tc39.es/proposal-temporal/docs/duration.html)  
+> Tests (most) in this module now validate against [@js-temporal/polyfill](https://www.npmjs.com/package/@js-temporal/polyfill)
 
 ## The ISO8601 duration format
 
-Durations in ISO8601 comes in two formats:
+Durations in ISO8601 comes in this string format:
 
-- **`PnYnMnDTnHnMnS`** - `P<date>T<time>`  
+- **`PnYnMnWnDTnHnMnS`** - `P<date>T<time>`  
   The `n` is replaced by the value for each of the date and time elements that follow the `n`.  
   Leading zeros are not required
-- **`PnW`** - the week format
 
-Check out the details on [Wikipedia](https://en.wikipedia.org/wiki/ISO_8601#Durations)
+Check out the details on [Wikipedia](https://en.wikipedia.org/wiki/ISO_8601#Durations) or in the coming [Temporal.Duration](https://tc39.es/proposal-temporal/docs/duration.html) spec.
 
 ## Install
 
@@ -102,6 +102,6 @@ const getWithSensibleDurations = (someApiEndpoint) => {
 
 MIT @ https://tolu.mit-license.org/
 
-[travis]: https://travis-ci.org/tolu/ISO8601-duration "travis build status"
+[gh-action]: https://actions-badge.atrox.dev/tolu/iso8601-duration/goto
 [npm]: https://www.npmjs.com/package/iso8601-duration "npm package"
 [bundlephobia]: https://img.shields.io/bundlephobia/minzip/iso8601-duration

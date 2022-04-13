@@ -1,5 +1,5 @@
 name: Run Tests
-on: [pull_request]
+on: [push]
 jobs:
   Npm-Install-And-Test:
     runs-on: ubuntu-latest

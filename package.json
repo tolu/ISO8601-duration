@@ -8,7 +8,7 @@
     "lint": "prettier --write .",
     "test": "npm run lint && npm run unittests",
     "unittests": "uvu -r ts-node/register test",
-    "watch": "onchange '**/*.js' -- npm run test",
+    "tdd": "onchange '**/*.ts' -- npm run unittests",
     "compile": "tsc",
     "prepublishOnly": "npm run compile",
     "release-patch": "npx np patch",
@@ -36,6 +36,7 @@
   "devDependencies": {
     "onchange": "^3.3.0",
     "prettier": "^2.6.2",
+    "@js-temporal/polyfill": "*",
     "ts-node": "^10.7.0",
     "typescript": "4.6.3",
     "uvu": "^0.5.3"
