@@ -1,7 +1,7 @@
 /**
  * @description A module for parsing ISO8601 durations
  */
-interface Duration {
+export interface Duration {
     years?: number;
     months?: number;
     weeks?: number;
