@@ -13,40 +13,41 @@ const tryCatch = (cb) => {
   return null;
 }
 
-test("Validate against Temporal.Duration", () => {
-
-  // needed for calendar correctness
-  const relativeDate = new Date();
-  // ok patterns
-  [
-    "P0D",
-    "PT0S",
-    "PT0,1S", // commas as separators
-    "PT0.5M",
-    "PT0.5H",
-    "PT0.001S",
-    "P1DT2H3M4S",
-    "P2Y4M6DT14H30M20.42S"
-  ].forEach((value) => {
+// needed for calendar correctness
+const relativeDate = new Date();
+// ok patterns
+[
+  "P0D",
+  "PT0S",
+  "PT0,1S", // commas as separators
+  "PT0.5M",
+  "PT0.5H",
+  "PT0.001S",
+  "P1DT2H3M4S",
+  "P2Y4M6DT14H30M20.42S"
+].forEach((value) => {
+  test(`Validate ok duration (${value}) against Temporal.Duration`, () => {
     assert.equal(
       Temporal.Duration.from(value).total({ unit: "second", relativeTo: relativeDate.toISOString() }),
       toSeconds(parse(value), relativeDate),
       `Mismatch for pattern ${value}`
     );
-  });
-  // !ok patterns
-  [
-    "",   // invalid duration
-    "P",  // invalid duration
-    "T",  // invalid duration
-    "PT", // invalid duration
-    "PT0,2H0,1S", // only smallest number can be fractional
-  ].forEach((value) => {
+  })
+});
+
+[
+  "",   // invalid duration
+  "P",  // invalid duration
+  "T",  // invalid duration
+  "PT", // invalid duration
+  "PT0,2H0,1S", // only smallest number can be fractional
+].forEach((value) => {
+  test(`Validate !ok duration (${value}) against Temporal.Duration`, () => {
     const errExpected = tryCatch(() => Temporal.Duration.from(value));
     assert.not.equal(errExpected, null);
     const errActual = tryCatch(() => parse(value));
     assert.not.equal(errActual, null, `Should have thrown: "${errExpected.toString()}"`);
-
+    // Assert
     assert.equal(errActual.message, errExpected.message);
   });
 });
