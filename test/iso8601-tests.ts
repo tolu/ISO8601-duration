@@ -14,6 +14,7 @@ const tryCatch = (cb) => {
 }
 
 test("Validate against Temporal.Duration", () => {
+
   // needed for calendar correctness
   const relativeDate = new Date();
   // ok patterns
@@ -21,6 +22,8 @@ test("Validate against Temporal.Duration", () => {
     "P0D",
     "PT0S",
     "PT0,1S", // commas as separators
+    "PT0.5M",
+    "PT0.5H",
     "PT0.001S",
     "P1DT2H3M4S",
     "P2Y4M6DT14H30M20.42S"

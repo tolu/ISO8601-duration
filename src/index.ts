@@ -84,10 +84,10 @@ export const end = (durationInput: Duration, startDate = new Date()) => {
   then.setFullYear(then.getFullYear() + duration.years);
   then.setMonth(then.getMonth() + duration.months);
   then.setDate(then.getDate() + duration.days);
-  then.setHours(then.getHours() + duration.hours);
-  then.setMinutes(then.getMinutes() + duration.minutes);
-  // Then.setSeconds(then.getSeconds() + duration.seconds);
-  then.setMilliseconds(then.getMilliseconds() + duration.seconds * 1000);
+  // set time as milliseconds to get fractions working for minutes/hours
+  const hoursInMs = duration.hours * 3600 * 1000;
+  const minutesInMs = duration.minutes * 60 * 1000;
+  then.setMilliseconds(then.getMilliseconds() + duration.seconds * 1000 + hoursInMs + minutesInMs);
   // Special case weeks
   then.setDate(then.getDate() + duration.weeks * 7);
 
