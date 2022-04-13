@@ -96,7 +96,6 @@ export const toSeconds = (durationInput: Duration, startDate = new Date()) => {
 };
 
 export default {
-  Duration,
   end,
   toSeconds,
   pattern,
