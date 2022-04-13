@@ -2,7 +2,7 @@
 
 Node/Js-module for parsing and making sense of ISO8601-durations
 
-[![Build Status: Travis](https://img.shields.io/travis/tolu/ISO8601-duration/master.svg)][travis]
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Ftolu%2Fiso8601-duration%2Fbadge&style=popout)][gh-action]
 [![npm version](https://img.shields.io/npm/v/iso8601-duration.svg)][npm]
 ![npm bundle size][bundlephobia]
 
@@ -102,5 +102,6 @@ const getWithSensibleDurations = (someApiEndpoint) => {
 
 MIT @ https://tolu.mit-license.org/
 
+[gh-action]: https://actions-badge.atrox.dev/tolu/iso8601-duration/goto
 [npm]: https://www.npmjs.com/package/iso8601-duration "npm package"
 [bundlephobia]: https://img.shields.io/bundlephobia/minzip/iso8601-duration
