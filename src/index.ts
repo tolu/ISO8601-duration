@@ -52,12 +52,23 @@ export const pattern = new RegExp(iso8601);
 
 /** Parse PnYnMnDTnHnMnS format to object */
 export const parse = (durationString: string): Duration => {
-  // Slice away first entry in match-array
-  return durationString
-    .match(pattern)!
-    .slice(1)
+  const matches = durationString.replace(/,/g, '.').match(pattern);
+  if (!matches) {
+    throw new RangeError(`invalid duration: ${durationString}`);
+  }
+  // Slice away first entry in match-array (the input string)
+  const slicedMatches: (string | undefined)[] = matches.slice(1);
+  if (slicedMatches.filter(v => v != null).length === 0) {
+    throw new RangeError(`invalid duration: ${durationString}`);
+  }
+  // Check only one fraction is used
+  if (slicedMatches.filter(v => /\./.test(v || '')).length > 1) {
+    throw new RangeError(`only the smallest unit can be fractional`);
+  }
+
+  return slicedMatches
     .reduce((prev, next, idx) => {
-      prev[objMap[idx]] = parseFloat(next) || 0;
+      prev[objMap[idx]] = parseFloat(next || '0') || 0;
       return prev;
     }, {} as Duration);
 };

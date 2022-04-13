@@ -2,6 +2,52 @@ import { test } from "uvu";
 import * as assert from "uvu/assert";
 import { parse, end, toSeconds, pattern } from "../src/index";
 
+import { Temporal } from "proposal-temporal";
+
+const tryCatch = (cb) => {
+  try {
+    cb();
+  } catch (err) {
+    return err;
+  }
+  return null;
+}
+
+test("Validate against Temporal.Duration", () => {
+  // needed for calendar correctness
+  const relativeDate = new Date();
+  // ok patterns
+  [
+    "P0D",
+    "PT0S",
+    "PT0,1S", // commas as separators
+    "PT0.001S",
+    "P1DT2H3M4S",
+    "P2Y4M6DT14H30M20.42S"
+  ].forEach((value) => {
+    assert.equal(
+      Temporal.Duration.from(value).total({ unit: "second", relativeTo: relativeDate.toISOString() }),
+      toSeconds(parse(value), relativeDate),
+      `Mismatch for pattern ${value}`
+    );
+  });
+  // !ok patterns
+  [
+    "",   // invalid duration
+    "P",  // invalid duration
+    "T",  // invalid duration
+    "PT", // invalid duration
+    "PT0,2H0,1S", // only smallest number can be fractional
+  ].forEach((value) => {
+    const errExpected = tryCatch(() => Temporal.Duration.from(value));
+    assert.not.equal(errExpected, null);
+    const errActual = tryCatch(() => parse(value));
+    assert.not.equal(errActual, null, `Should have thrown: "${errExpected.toString()}"`);
+
+    assert.equal(errActual.message, errExpected.message);
+  });
+});
+
 test("Parse: correctly parses data-time format", () => {
   const time = parse("P2Y4M6DT14H30M20.42S");
   assert.is(time.years, 2);
