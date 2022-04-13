@@ -3,13 +3,12 @@
  */
 
 /**
- * The pattern used for parsing ISO8601 duration (PnYnMnDTnHnMnS).
- * This does not cover the week format PnW.
+ * The pattern used for parsing ISO8601 duration (PnYnMnWnDTnHnMnS).
  */
 
-// PnYnMnDTnHnMnS
-const numbers = "\\d+?";
-const fractionalNumbers = "\\d+(?:[\\.,]\\d+)?";
+// PnYnMnWnDTnHnMnS
+const numbers = "\\d+";
+const fractionalNumbers = `${numbers}(?:[\\.,]${numbers})?`;
 const datePattern = `(${numbers}Y)?(${numbers}M)?(${numbers}W)?(${numbers}D)?`;
 const timePattern = `T(${fractionalNumbers}H)?(${fractionalNumbers}M)?(${fractionalNumbers}S)?`;
 

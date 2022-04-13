@@ -11,14 +11,13 @@ Node/Js-module for parsing and making sense of ISO8601-durations
 
 ## The ISO8601 duration format
 
-Durations in ISO8601 comes in two formats:
+Durations in ISO8601 comes in this string format:
 
-- **`PnYnMnDTnHnMnS`** - `P<date>T<time>`  
+- **`PnYnMnWnDTnHnMnS`** - `P<date>T<time>`  
   The `n` is replaced by the value for each of the date and time elements that follow the `n`.  
   Leading zeros are not required
-- **`PnW`** - the week format
 
-Check out the details on [Wikipedia](https://en.wikipedia.org/wiki/ISO_8601#Durations)
+Check out the details on [Wikipedia](https://en.wikipedia.org/wiki/ISO_8601#Durations) or in the coming [Temporal.Duration](https://tc39.es/proposal-temporal/docs/duration.html) spec.
 
 ## Install
 
@@ -103,6 +102,5 @@ const getWithSensibleDurations = (someApiEndpoint) => {
 
 MIT @ https://tolu.mit-license.org/
 
-[travis]: https://travis-ci.org/tolu/ISO8601-duration "travis build status"
 [npm]: https://www.npmjs.com/package/iso8601-duration "npm package"
 [bundlephobia]: https://img.shields.io/bundlephobia/minzip/iso8601-duration
