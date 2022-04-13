@@ -10,11 +10,10 @@
 // PnYnMnDTnHnMnS
 const numbers = "\\d+?";
 const fractionalNumbers = "\\d+(?:[\\.,]\\d+)?";
-const weekPattern = `(${numbers}W)?`;
-const datePattern = `(${numbers}Y)?(${numbers}M)?(${numbers}D)?`;
+const datePattern = `(${numbers}Y)?(${numbers}M)?(${numbers}W)?(${numbers}D)?`;
 const timePattern = `T(${fractionalNumbers}H)?(${fractionalNumbers}M)?(${fractionalNumbers}S)?`;
 
-const iso8601 = `P(?:${weekPattern}${datePattern}(?:${timePattern})?)`;
+const iso8601 = `P(?:${datePattern}(?:${timePattern})?)`;
 
 interface Duration {
   years?: number;
@@ -27,9 +26,9 @@ interface Duration {
 }
 
 const objMap: (keyof Duration)[] = [
-  "weeks",
   "years",
   "months",
+  "weeks",
   "days",
   "hours",
   "minutes",

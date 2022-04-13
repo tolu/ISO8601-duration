@@ -26,14 +26,15 @@ const relativeDate = new Date();
   "PT0.001S",
   "P1DT2H3M4S",
   "P2Y4M6DT14H30M20.42S",
+  "P2Y4M2W6DT14H30M20.42S", // With weeks
 ].forEach((value) => {
   test(`Validate ok duration (${value}) against Temporal.Duration`, () => {
     assert.equal(
+      toSeconds(parse(value), relativeDate),
       Temporal.Duration.from(value).total({
         unit: "second",
         relativeTo: relativeDate.toISOString(),
       }),
-      toSeconds(parse(value), relativeDate),
       `Mismatch for pattern ${value}`
     );
   });
