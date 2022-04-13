@@ -8,12 +8,13 @@
  */
 
 // PnYnMnDTnHnMnS
-const numbers = "\\d+(?:[\\.,]\\d+)?";
-const weekPattern = `(${numbers}W)`;
+const numbers = "\\d+?";
+const fractionalNumbers = "\\d+(?:[\\.,]\\d+)?";
+const weekPattern = `(${numbers}W)?`;
 const datePattern = `(${numbers}Y)?(${numbers}M)?(${numbers}D)?`;
-const timePattern = `T(${numbers}H)?(${numbers}M)?(${numbers}S)?`;
+const timePattern = `T(${fractionalNumbers}H)?(${fractionalNumbers}M)?(${fractionalNumbers}S)?`;
 
-const iso8601 = `P(?:${weekPattern}|${datePattern}(?:${timePattern})?)`;
+const iso8601 = `P(?:${weekPattern}${datePattern}(?:${timePattern})?)`;
 
 interface Duration {
   years?: number;

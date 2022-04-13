@@ -22,6 +22,7 @@ const relativeDate = new Date();
   "PT0,1S", // commas as separators
   "PT0.5M",
   "PT0.5H",
+  "P2W2D", // Temporal allows mixing weeks with other designators
   "PT0.001S",
   "P1DT2H3M4S",
   "P2Y4M6DT14H30M20.42S"
@@ -36,10 +37,14 @@ const relativeDate = new Date();
 });
 
 [
+  "abc",
   "",   // invalid duration
   "P",  // invalid duration
   "T",  // invalid duration
   "PT", // invalid duration
+  "P0.5Y", // invalid duration, cant have fractions in year/month/day
+  "P0.5M", // invalid duration, cant have fractions in year/month/day
+  "P0.5D", // invalid duration, cant have fractions in year/month/day
   "PT0,2H0,1S", // only smallest number can be fractional
 ].forEach((value) => {
   test(`Validate !ok duration (${value}) against Temporal.Duration`, () => {
@@ -60,18 +65,6 @@ test("Parse: correctly parses data-time format", () => {
   assert.is(time.hours, 14);
   assert.is(time.minutes, 30);
   assert.is(time.seconds, 20.42);
-});
-
-test("Parse: correctly parses weeks format", () => {
-  const time = parse("P3W1Y4M6DT14H30M20.42S");
-
-  assert.is(time.weeks, 3);
-  assert.is(time.years, 0);
-  assert.is(time.months, 0);
-  assert.is(time.days, 0);
-  assert.is(time.hours, 0);
-  assert.is(time.minutes, 0);
-  assert.is(time.seconds, 0);
 });
 
 test("parse: allow any number of decimals", () => {
