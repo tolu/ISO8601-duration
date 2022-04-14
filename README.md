@@ -14,26 +14,26 @@ Node/Js-module for parsing and making sense of ISO 8601 durations
 > **TL;DR**  
 > **`PnYnMnWnDTnHnMnS`** - `P<date>T<time>`.  
 > (P) **Y**ears, **M**onths, **W**eeks, **D**ays (T) **H**ours, **M**inutes, **S**econds.  
-> Example: `P1Y1M1DT1H1M1.1S` =	One year, one month, one day, one hour, one minute, one second, and 100 milliseconds
+> Example: `P1Y1M1DT1H1M1.1S` = One year, one month, one day, one hour, one minute, one second, and 100 milliseconds
 
 Durations in ISO 8601 comes in 2 variants:
 
 **ISO 8601-1**  
 Weeks are not allowed to appear together with any other units and durations can only be positive (used until [v2.0.0](https://github.com/tolu/ISO8601-duration/releases/tag/v2.0.0) in this module).  
 Valid patterns with weeks: `P2W`.  
-Invalid patterns with weeks: `P2W2D`.  
+Invalid patterns with weeks: `P2W2D`.
 
 **ISO 8601-2**  
 An extension to the standard, allows combining weeks with other units (supported since [v2.1.0](https://github.com/tolu/ISO8601-duration/releases/tag/v2.1.0) in this module).  
-Valid patterns with weeks: `P2W` & `P2W2DT5H`, etc.  
+Valid patterns with weeks: `P2W` & `P2W2DT5H`, etc.
 
 _ISO 8601-2 also allows for a sign character at the start of the string (`-P1D`, `+P1M`), this is not yet supported by this module._
 
-### **`PnYnMnWnDTnHnMnS`** - `P<date>T<time>`  
+### **`PnYnMnWnDTnHnMnS`** - `P<date>T<time>`
 
-- The `n` is replaced by the value for each of the date and time elements that follow the `n`.  
-- Leading zeros are not required.  
-- Fractions are allowed on the smallest unit in the string, e.g. `P0.5D` or `PT1.0001S` but not `PT0.5M0.1S`.  
+- The `n` is replaced by the value for each of the date and time elements that follow the `n`.
+- Leading zeros are not required.
+- Fractions are allowed on the smallest unit in the string, e.g. `P0.5D` or `PT1.0001S` but not `PT0.5M0.1S`.
 
 Check out the details on [Wikipedia](https://en.wikipedia.org/wiki/ISO_8601#Durations) or in the coming [Temporal.Duration](https://tc39.es/proposal-temporal/docs/duration.html) spec.
 
