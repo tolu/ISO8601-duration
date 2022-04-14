@@ -1,6 +1,6 @@
 # ISO8601-duration
 
-Node/Js-module for parsing and making sense of ISO8601-durations
+Node/Js-module for parsing and making sense of ISO 8601 durations
 
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Ftolu%2Fiso8601-duration%2Fbadge&style=popout)][gh-action]
 [![npm version](https://img.shields.io/npm/v/iso8601-duration.svg)][npm]
@@ -9,13 +9,31 @@ Node/Js-module for parsing and making sense of ISO8601-durations
 > A new standard is on it's way, see [Temporal.Duration](https://tc39.es/proposal-temporal/docs/duration.html)  
 > Tests (most) in this module now validate against [@js-temporal/polyfill](https://www.npmjs.com/package/@js-temporal/polyfill)
 
-## The ISO8601 duration format
+## The ISO 8601 duration format
 
-Durations in ISO8601 comes in this string format:
+> **TL;DR**  
+> **`PnYnMnWnDTnHnMnS`** - `P<date>T<time>`.  
+> (P) **Y**ears, **M**onths, **W**eeks, **D**ays (T) **H**ours, **M**inutes, **S**econds.  
+> Example: `P1Y1M1DT1H1M1.1S` =	One year, one month, one day, one hour, one minute, one second, and 100 milliseconds
 
-- **`PnYnMnWnDTnHnMnS`** - `P<date>T<time>`  
-  The `n` is replaced by the value for each of the date and time elements that follow the `n`.  
-  Leading zeros are not required
+Durations in ISO 8601 comes in 2 variants:
+
+**ISO 8601-1**  
+Weeks are not allowed to appear together with any other units and durations can only be positive (used until [v2.0.0](https://github.com/tolu/ISO8601-duration/releases/tag/v2.0.0) in this module).  
+Valid patterns with weeks: `P2W`.  
+Invalid patterns with weeks: `P2W2D`.  
+
+**ISO 8601-2**  
+An extension to the standard, allows combining weeks with other units (supported since [v2.1.0](https://github.com/tolu/ISO8601-duration/releases/tag/v2.1.0) in this module).  
+Valid patterns with weeks: `P2W` & `P2W2DT5H`, etc.  
+
+_ISO 8601-2 also allows for a sign character at the start of the string (`-P1D`, `+P1M`), this is not yet supported by this module._
+
+### **`PnYnMnWnDTnHnMnS`** - `P<date>T<time>`  
+
+- The `n` is replaced by the value for each of the date and time elements that follow the `n`.  
+- Leading zeros are not required.  
+- Fractions are allowed on the smallest unit in the string, e.g. `P0.5D` or `PT1.0001S` but not `PT0.5M0.1S`.  
 
 Check out the details on [Wikipedia](https://en.wikipedia.org/wiki/ISO_8601#Durations) or in the coming [Temporal.Duration](https://tc39.es/proposal-temporal/docs/duration.html) spec.
 
@@ -37,7 +55,7 @@ If a date is not provided for `toSeconds` the timestamp `Date.now()` is used as 
 
 ```js
 export const toSeconds; // fn = (obj, date?) => number
-export const pattern;   // ISO8601 RegExp
+export const pattern;   // ISO 8601 RegExp
 export const parse;     // fn = string => obj
 export default {
 	toSeconds,
