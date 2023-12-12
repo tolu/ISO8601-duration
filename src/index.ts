@@ -102,8 +102,13 @@ export const toSeconds = (durationInput: Duration, startDate = new Date()) => {
   const now = new Date(timestamp);
   const then = end(duration, now);
 
+  // Account for timezone offset between start and end date
+  const tzStart = startDate.getTimezoneOffset();
+  const tzEnd = then.getTimezoneOffset();
+  let tzOffsetSeconds = (tzStart - tzEnd) * 60;
+
   const seconds = (then.getTime() - now.getTime()) / 1000;
-  return seconds;
+  return seconds + tzOffsetSeconds;
 };
 
 export default {
