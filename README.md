@@ -43,6 +43,8 @@ Check out the details on [Wikipedia](https://en.wikipedia.org/wiki/ISO_8601#Dura
 npm install iso8601-duration
 ```
 
+> Also available on [jsr.io/@tolu/iso-8601-duration](https://jsr.io/@tolu/iso8601-duration)
+
 ## Usage
 
 Most noteworthy of the interface is the ability to provide a `date` for `toSeconds`-calculations.  

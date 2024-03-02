@@ -47,7 +47,7 @@ const defaultDuration: Required<Duration> = Object.freeze({
 /**
  * The ISO8601 regex for matching / testing durations
  */
-export const pattern = new RegExp(iso8601);
+export const pattern: RegExp = new RegExp(iso8601);
 
 /** Parse PnYnMnDTnHnMnS format to object */
 export const parse = (durationString: string): Duration => {
@@ -72,7 +72,10 @@ export const parse = (durationString: string): Duration => {
 };
 
 /** Convert ISO8601 duration object to an end Date. */
-export const end = (durationInput: Duration, startDate = new Date()) => {
+export const end = (
+  durationInput: Duration,
+  startDate: Date = new Date()
+): Date => {
   const duration = Object.assign({}, defaultDuration, durationInput);
 
   // Create two equal timestamps, add duration to 'then' and return time difference
@@ -95,7 +98,10 @@ export const end = (durationInput: Duration, startDate = new Date()) => {
 };
 
 /** Convert ISO8601 duration object to seconds */
-export const toSeconds = (durationInput: Duration, startDate = new Date()) => {
+export const toSeconds = (
+  durationInput: Duration,
+  startDate: Date = new Date()
+): number => {
   const duration = Object.assign({}, defaultDuration, durationInput);
 
   const timestamp = startDate.getTime();
