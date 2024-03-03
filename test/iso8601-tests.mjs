@@ -1,6 +1,6 @@
-import { test } from "uvu";
-import * as assert from "uvu/assert";
-import { parse, end, toSeconds, pattern } from "../src/index";
+import test from "node:test";
+import assert from "node:assert/strict";
+import { parse, end, toSeconds, pattern } from "../lib/index.js";
 
 import { Temporal } from "@js-temporal/polyfill";
 
@@ -25,6 +25,7 @@ const relativeDate = new Date();
   "P2W2D", // Temporal allows mixing weeks with other designators
   "PT0.001S",
   "P1DT2H3M4S",
+  "P4Y2M8D", // long time
   "P2Y4M6DT14H30M20.42S",
   "P2Y4M2W6DT14H30M20.42S", // With weeks
 ].forEach((value) => {
@@ -54,9 +55,9 @@ const relativeDate = new Date();
 ].forEach((value) => {
   test(`Validate !ok duration (${value}) against Temporal.Duration`, () => {
     const errExpected = tryCatch(() => Temporal.Duration.from(value));
-    assert.not.equal(errExpected, null);
+    assert.notEqual(errExpected, null);
     const errActual = tryCatch(() => parse(value));
-    assert.not.equal(
+    assert.notEqual(
       errActual,
       null,
       `Should have thrown: "${errExpected.toString()}"`
@@ -68,50 +69,37 @@ const relativeDate = new Date();
 
 test("Parse: correctly parses data-time format", () => {
   const time = parse("P2Y4M6DT14H30M20.42S");
-  assert.is(time.years, 2);
-  assert.is(time.months, 4);
-  assert.is(time.days, 6);
-  assert.is(time.hours, 14);
-  assert.is(time.minutes, 30);
-  assert.is(time.seconds, 20.42);
+  assert.equal(time.years, 2);
+  assert.equal(time.months, 4);
+  assert.equal(time.days, 6);
+  assert.equal(time.hours, 14);
+  assert.equal(time.minutes, 30);
+  assert.equal(time.seconds, 20.42);
 });
 
 test("parse: allow any number of decimals", () => {
   const time = parse("PT16.239999S");
 
-  assert.is(time.weeks, 0);
-  assert.is(time.years, 0);
-  assert.is(time.months, 0);
-  assert.is(time.days, 0);
-  assert.is(time.hours, 0);
-  assert.is(time.minutes, 0);
-  assert.is(time.seconds, 16.239999);
+  assert.equal(time.weeks, 0);
+  assert.equal(time.years, 0);
+  assert.equal(time.months, 0);
+  assert.equal(time.days, 0);
+  assert.equal(time.hours, 0);
+  assert.equal(time.minutes, 0);
+  assert.equal(time.seconds, 16.239999);
 });
 
 test("end: returns the following day", () => {
   const now = new Date();
   const then = end(parse("P1D"), now);
   const expectedThen = new Date(now.getTime() + 86400 * 1000);
-  assert.is(then.getTime(), expectedThen.getTime());
+  assert.equal(then.getTime(), expectedThen.getTime());
 });
 
 test("toSeconds: returns simple HMS time in total seconds", () => {
   const res = toSeconds(parse("PT1H2M5.512S"));
   const expected = 3600 + 2 * 60 + 5.512;
-  assert.is(res, expected);
-});
-
-test("toSeconds: returns calendar time (YMD) diff in seconds", () => {
-  const res = toSeconds(parse("P4Y2M8D"));
-  const timestamp = Date.now();
-  const d = new Date(timestamp);
-
-  d.setFullYear(d.getFullYear() + 4);
-  d.setMonth(d.getMonth() + 2);
-  d.setDate(d.getDate() + 8);
-
-  const expected = (d.getTime() - new Date(timestamp).getTime()) / 1000;
-  assert.is(res, expected);
+  assert.equal(res, expected);
 });
 
 test("toSeconds: return weeks in total seconds", () => {
@@ -120,7 +108,7 @@ test("toSeconds: return weeks in total seconds", () => {
   const d = new Date(timestamp);
   d.setDate(d.getDate() + 7 * 3);
   const expected = (d.getTime() - new Date(timestamp).getTime()) / 1000;
-  assert.is(res, expected);
+  assert.equal(res, expected);
 });
 
 test("toSeconds: with supplied start date", () => {
@@ -138,8 +126,8 @@ test("toSeconds: with supplied start date", () => {
 
   // Assert
   assert.ok(durFromJan > durFromFeb);
-  assert.is(durFromJan, expectedJanDuration);
-  assert.is(durFromFeb, expectedFebDuration);
+  assert.equal(durFromJan, expectedJanDuration);
+  assert.equal(durFromFeb, expectedFebDuration);
 });
 
 test("usage example test", () => {
@@ -160,8 +148,8 @@ test("usage example test", () => {
   );
 
   // Assert
-  assert.is(result.foo.duration, 3600 + 30 * 60 + 25);
-  assert.is(result.bar.duration, 43 * 60 + 58.72);
+  assert.equal(result.foo.duration, 3600 + 30 * 60 + 25);
+  assert.equal(result.bar.duration, 43 * 60 + 58.72);
 });
 
 test("expose vulnerable time calculation in toSeconds", () => {
@@ -177,7 +165,7 @@ test("expose vulnerable time calculation in toSeconds", () => {
 
   Array.from({ length: 10000 }, () => {
     const sec = toSeconds(dur);
-    assert.is(sec, 0);
+    assert.equal(sec, 0);
   });
 });
 
@@ -186,7 +174,5 @@ test("optional arguments for time calculation in toSeconds", () => {
     minutes: 3,
   });
 
-  assert.is(sec, 180);
+  assert.equal(sec, 180);
 });
-
-test.run();

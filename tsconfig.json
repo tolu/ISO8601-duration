@@ -8,13 +8,5 @@
     "declaration": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*"],
-  // Required for uvu tests using "-r ts-node/register"
-  "ts-node": {
-    "transpileOnly": true,
-    "compilerOptions": {
-      "module": "commonjs"
-    },
-    "include": ["./**/*"]
-  }
+  "include": ["src/**/*"]
 }

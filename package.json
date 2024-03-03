@@ -7,10 +7,9 @@
   "scripts": {
     "lint": "prettier --write .",
     "test": "npm run lint && npm run unittests",
-    "unittests": "uvu -r ts-node/register test",
-    "tdd": "npx -y watchlist src test -- npm run unittests",
-    "compile": "tsc",
-    "prepublishOnly": "npm run compile",
+    "unittests": "tsc && node --test --test-reporter spec test/*.mjs",
+    "tdd": "npx -y watchlist --eager src test -- npm run unittests",
+    "prepublishOnly": "tsc",
     "release-patch": "npx np patch",
     "release-beta": "npx np --tag=beta"
   },
@@ -34,10 +33,9 @@
   },
   "homepage": "https://github.com/tolu/ISO8601-duration#readme",
   "devDependencies": {
-    "prettier": "^2.6.2",
     "@js-temporal/polyfill": "*",
-    "ts-node": "^10.7.0",
-    "typescript": "4.6.3",
-    "uvu": "^0.5.3"
+    "@types/node": "^20.11.24",
+    "prettier": "^2.6.2",
+    "typescript": "5.3.3"
   }
 }
