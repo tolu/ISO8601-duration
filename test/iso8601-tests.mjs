@@ -1,6 +1,6 @@
-import test from "node:test";
 import assert from "node:assert/strict";
-import { parse, end, toSeconds, pattern } from "../lib/index.js";
+import test from "node:test";
+import { end, parse, pattern, toSeconds } from "../lib/index.js";
 
 import { Temporal } from "@js-temporal/polyfill";
 
@@ -36,7 +36,7 @@ const relativeDate = new Date();
         unit: "second",
         relativeTo: relativeDate.toISOString(),
       }),
-      `Mismatch for pattern ${value}`
+      `Mismatch for pattern ${value}`,
     );
   });
 });
@@ -60,7 +60,7 @@ const relativeDate = new Date();
     assert.notEqual(
       errActual,
       null,
-      `Should have thrown: "${errExpected.toString()}"`
+      `Should have thrown: "${errExpected.toString()}"`,
     );
     // Assert
     assert.equal(errActual.message, errExpected.message);
@@ -144,7 +144,7 @@ test("usage example test", () => {
     // @ts-expect-error
     jsonString.replace(globalRegex, (m) => {
       return toSeconds(parse(m));
-    })
+    }),
   );
 
   // Assert

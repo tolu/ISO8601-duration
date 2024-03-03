@@ -62,7 +62,7 @@ export const parse = (durationString: string): Duration => {
   }
   // Check only one fraction is used
   if (slicedMatches.filter((v) => /\./.test(v || "")).length > 1) {
-    throw new RangeError(`only the smallest unit can be fractional`);
+    throw new RangeError("only the smallest unit can be fractional");
   }
 
   return slicedMatches.reduce((prev, next, idx) => {
@@ -74,7 +74,7 @@ export const parse = (durationString: string): Duration => {
 /** Convert ISO8601 duration object to an end Date. */
 export const end = (
   durationInput: Duration,
-  startDate: Date = new Date()
+  startDate: Date = new Date(),
 ): Date => {
   const duration = Object.assign({}, defaultDuration, durationInput);
 
@@ -89,7 +89,7 @@ export const end = (
   const hoursInMs = duration.hours * 3600 * 1000;
   const minutesInMs = duration.minutes * 60 * 1000;
   then.setMilliseconds(
-    then.getMilliseconds() + duration.seconds * 1000 + hoursInMs + minutesInMs
+    then.getMilliseconds() + duration.seconds * 1000 + hoursInMs + minutesInMs,
   );
   // Special case weeks
   then.setDate(then.getDate() + duration.weeks * 7);
@@ -100,7 +100,7 @@ export const end = (
 /** Convert ISO8601 duration object to seconds */
 export const toSeconds = (
   durationInput: Duration,
-  startDate: Date = new Date()
+  startDate: Date = new Date(),
 ): number => {
   const duration = Object.assign({}, defaultDuration, durationInput);
 
@@ -111,7 +111,7 @@ export const toSeconds = (
   // Account for timezone offset between start and end date
   const tzStart = startDate.getTimezoneOffset();
   const tzEnd = then.getTimezoneOffset();
-  let tzOffsetSeconds = (tzStart - tzEnd) * 60;
+  const tzOffsetSeconds = (tzStart - tzEnd) * 60;
 
   const seconds = (then.getTime() - now.getTime()) / 1000;
   return seconds + tzOffsetSeconds;
