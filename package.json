@@ -5,13 +5,14 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "lint": "prettier --write .",
-    "test": "npm run lint && npm run unittests",
+    "check": "npx @biomejs/biome check --apply .",
+    "test": "npm run check && npm run unittests",
     "unittests": "tsc && node --test --test-reporter spec test/*.mjs",
     "tdd": "npx -y watchlist --eager src test -- npm run unittests",
     "prepublishOnly": "tsc",
     "release-patch": "npx np patch",
-    "release-beta": "npx np --tag=beta"
+    "release-beta": "npx np --tag=beta",
+    "release-jsr": "npx -y jsr publish"
   },
   "files": [
     "lib/index.js",
@@ -33,9 +34,9 @@
   },
   "homepage": "https://github.com/tolu/ISO8601-duration#readme",
   "devDependencies": {
+    "@biomejs/biome": "^1.5.3",
     "@js-temporal/polyfill": "*",
     "@types/node": "^20.11.24",
-    "prettier": "^2.6.2",
     "typescript": "5.3.3"
   }
 }
