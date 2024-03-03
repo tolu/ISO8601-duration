@@ -17,6 +17,6 @@
     "indentStyle": "space"
   },
   "files": {
-    "include": ["src/**", "test/**"]
+    "include": ["src/**", "test/**", "*.json", "*.md"]
   }
 }
