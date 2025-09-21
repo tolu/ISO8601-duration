@@ -118,10 +118,6 @@ const getWithSensibleDurations = (someApiEndpoint) => {
 };
 ```
 
-## License
-
-MIT @ https://tolu.mit-license.org/
-
 [gh-action]: https://actions-badge.atrox.dev/tolu/iso8601-duration/goto
 [npm]: https://www.npmjs.com/package/iso8601-duration "npm package"
 [bundlephobia]: https://img.shields.io/bundlephobia/minzip/iso8601-duration
