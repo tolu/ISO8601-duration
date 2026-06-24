@@ -60,9 +60,19 @@ export const parse = (durationString: string): Duration => {
   if (slicedMatches.filter((v) => v != null).length === 0) {
     throw new RangeError(`invalid duration: ${durationString}`);
   }
-  // Check only one fraction is used
-  if (slicedMatches.filter((v) => /\./.test(v || "")).length > 1) {
-    throw new RangeError("only the smallest unit can be fractional");
+  // A fraction is only allowed on the last present (smallest) unit
+  const fractionalIdx = slicedMatches.findIndex((v) => /\./.test(v || ""));
+  if (fractionalIdx !== -1) {
+    const lastPresentIdx = slicedMatches.reduce(
+      (acc, v, idx) => (v != null ? idx : acc),
+      -1,
+    );
+    const fractionalCount = slicedMatches.filter((v) =>
+      /\./.test(v || ""),
+    ).length;
+    if (fractionalCount > 1 || fractionalIdx !== lastPresentIdx) {
+      throw new RangeError("only the smallest unit can be fractional");
+    }
   }
 
   return slicedMatches.reduce((prev, next, idx) => {

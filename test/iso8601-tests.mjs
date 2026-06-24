@@ -52,6 +52,9 @@ const relativeDate = new Date();
   "P0.5M", // invalid duration, cant have fractions in year/month/day
   "P0.5D", // invalid duration, cant have fractions in year/month/day
   "PT0,2H0,1S", // only smallest number can be fractional
+  "PT1.5H30M", // fraction on hours but minutes follow
+  "PT1.5H1S", // fraction on hours but seconds follow
+  "PT0.5M30S", // fraction on minutes but seconds follow
 ].forEach((value) => {
   test(`Validate !ok duration (${value}) against Temporal.Duration`, () => {
     const errExpected = tryCatch(() => Temporal.Duration.from(value));
