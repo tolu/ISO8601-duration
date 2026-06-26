@@ -67,10 +67,7 @@ export const parse = (durationString: string): Duration => {
       (acc, v, idx) => (v != null ? idx : acc),
       -1,
     );
-    const fractionalCount = slicedMatches.filter((v) =>
-      /\./.test(v || ""),
-    ).length;
-    if (fractionalCount > 1 || fractionalIdx !== lastPresentIdx) {
+    if (fractionalIdx !== lastPresentIdx) {
       throw new RangeError("only the smallest unit can be fractional");
     }
   }
