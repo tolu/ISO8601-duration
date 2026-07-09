@@ -89,9 +89,18 @@ export const end = (
   const timestamp = startDate.getTime();
   const then = new Date(timestamp);
 
+  // Add years/months on the 1st, then clamp the day to the resulting month so
+  // that e.g. Jan 31 + P1M is Feb 28, not an overflow into March
+  const dayOfMonth = then.getDate();
+  then.setDate(1);
   then.setFullYear(then.getFullYear() + duration.years);
   then.setMonth(then.getMonth() + duration.months);
-  then.setDate(then.getDate() + duration.days);
+  const daysInMonth = new Date(
+    then.getFullYear(),
+    then.getMonth() + 1,
+    0,
+  ).getDate();
+  then.setDate(Math.min(dayOfMonth, daysInMonth) + duration.days);
   // set time as milliseconds to get fractions working for minutes/hours
   const hoursInMs = duration.hours * 3600 * 1000;
   const minutesInMs = duration.minutes * 60 * 1000;
