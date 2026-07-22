@@ -55,6 +55,22 @@ const relativeDate = new Date();
   "PT1.5H30M", // fraction on hours but minutes follow
   "PT1.5H1S", // fraction on hours but seconds follow
   "PT0.5M30S", // fraction on minutes but seconds follow
+  // reject a partial match of an embedded / padded duration
+  "xxP1Dxx",
+  "helloP1Yworld",
+  "1P1D",
+  "P1D1",
+  "P1DX",
+  " P1D",
+  "P1D ",
+  "\nP1D",
+  "P1D\n",
+  // out-of-order or repeated units must not be silently dropped
+  "P1M1Y",
+  "P1W2Y",
+  "PT1H1H",
+  "P1DP2D",
+  "P1DT", // `T` with no time component
 ].forEach((value) => {
   test(`Validate !ok duration (${value}) against Temporal.Duration`, () => {
     const errExpected = tryCatch(() => Temporal.Duration.from(value));
@@ -139,14 +155,14 @@ test("usage example test", () => {
     foo: { duration: "PT1H30M25S" },
     bar: { duration: "PT43M58.72S" },
   });
-  // Create new regex from pattern and include surrounding double-quotes
-  const globalRegex = new RegExp(`\\"${pattern.source}\\"`, "g");
+  // Match durations wrapped in double-quotes, capturing the duration itself
+  const globalRegex = new RegExp(`\\"(${pattern.source})\\"`, "g");
 
   // Act
   const result = JSON.parse(
     // @ts-expect-error
-    jsonString.replace(globalRegex, (m) => {
-      return toSeconds(parse(m));
+    jsonString.replace(globalRegex, (_m, duration) => {
+      return toSeconds(parse(duration));
     }),
   );
 

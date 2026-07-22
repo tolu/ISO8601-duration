@@ -10,7 +10,8 @@
 const numbers = "\\d+";
 const fractionalNumbers = `${numbers}(?:[\\.,]${numbers})?`;
 const datePattern = `(${numbers}Y)?(${numbers}M)?(${numbers}W)?(${numbers}D)?`;
-const timePattern = `T(${fractionalNumbers}H)?(${fractionalNumbers}M)?(${fractionalNumbers}S)?`;
+// `T` must be followed by at least one time component
+const timePattern = `T(?=\\d)(${fractionalNumbers}H)?(${fractionalNumbers}M)?(${fractionalNumbers}S)?`;
 
 const iso8601 = `P(?:${datePattern}(?:${timePattern})?)`;
 
@@ -49,9 +50,13 @@ const defaultDuration: Required<Duration> = Object.freeze({
  */
 export const pattern: RegExp = new RegExp(iso8601);
 
+// parse() requires the whole input to be a single duration, so it anchors the
+// pattern. `pattern` itself stays unanchored so it can be embedded (see README).
+const exactPattern = new RegExp(`^${iso8601}$`);
+
 /** Parse PnYnMnDTnHnMnS format to object */
 export const parse = (durationString: string): Duration => {
-  const matches = durationString.replace(/,/g, ".").match(pattern);
+  const matches = durationString.replace(/,/g, ".").match(exactPattern);
   if (!matches) {
     throw new RangeError(`invalid duration: ${durationString}`);
   }
