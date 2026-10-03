@@ -133,6 +133,22 @@ test("toSeconds: with supplied start date", () => {
   assert.equal(durFromFeb, expectedFebDuration);
 });
 
+[
+  // Jan 31 + 1 month must clamp to Feb 28, not overflow into March
+  ["P1M", new Date(2021, 0, 31), new Date(2021, 1, 28)],
+  // Feb 29 + 1 year must clamp to Feb 28 in a non-leap year
+  ["P1Y", new Date(2020, 1, 29), new Date(2021, 1, 28)],
+  // overflow is clamped before days are added: Feb 28 + 1 day = Mar 1
+  ["P1M1D", new Date(2021, 0, 31), new Date(2021, 2, 1)],
+].forEach(([value, start, expectedEnd]) => {
+  test(`toSeconds: clamps calendar overflow (${value})`, () => {
+    assert.equal(
+      toSeconds(parse(value), start),
+      (expectedEnd.getTime() - start.getTime()) / 1000,
+    );
+  });
+});
+
 test("usage example test", () => {
   // Arrange
   const jsonString = JSON.stringify({
