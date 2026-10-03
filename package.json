@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "check": "npx @biomejs/biome check --apply .",
+    "check": "npx @biomejs/biome check --write .",
     "test": "npm run check && npm run unittests",
     "unittests": "tsc && node --test --test-reporter spec test/*.mjs",
     "tdd": "npx -y watchlist --eager src test -- npm run unittests",
@@ -34,9 +34,9 @@
   },
   "homepage": "https://github.com/tolu/ISO8601-duration#readme",
   "devDependencies": {
-    "@biomejs/biome": "^1.5.3",
-    "@js-temporal/polyfill": "*",
-    "@types/node": "^20.11.24",
-    "typescript": "5.3.3"
+    "@biomejs/biome": "2.5.15",
+    "@js-temporal/polyfill": "0.5.1",
+    "@types/node": "24.19.1",
+    "typescript": "5.9.3"
   }
 }

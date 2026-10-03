@@ -1,8 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { end, parse, pattern, toSeconds } from "../lib/index.js";
-
 import { Temporal } from "@js-temporal/polyfill";
+import { end, parse, pattern, toSeconds } from "../lib/index.js";
 
 const tryCatch = (cb) => {
   try {
@@ -15,6 +14,12 @@ const tryCatch = (cb) => {
 
 // needed for calendar correctness
 const relativeDate = new Date();
+// toSeconds does calendar math on the local date, so compare against the same plain date
+const relativePlainDate = new Temporal.PlainDate(
+  relativeDate.getFullYear(),
+  relativeDate.getMonth() + 1,
+  relativeDate.getDate(),
+);
 // ok patterns
 [
   "P0D",
@@ -34,7 +39,7 @@ const relativeDate = new Date();
       toSeconds(parse(value), relativeDate),
       Temporal.Duration.from(value).total({
         unit: "second",
-        relativeTo: relativeDate.toISOString(),
+        relativeTo: relativePlainDate,
       }),
       `Mismatch for pattern ${value}`,
     );
@@ -171,7 +176,7 @@ test("usage example test", () => {
   assert.equal(result.bar.duration, 43 * 60 + 58.72);
 });
 
-test("expose vulnerable time calculation in toSeconds", () => {
+test("toSeconds reads the clock only once when no startDate given", () => {
   const dur = {
     weeks: 0,
     years: 0,
@@ -182,10 +187,10 @@ test("expose vulnerable time calculation in toSeconds", () => {
     seconds: 0,
   };
 
-  Array.from({ length: 10000 }, () => {
-    const sec = toSeconds(dur);
-    assert.equal(sec, 0);
-  });
+  // many iterations: bug only shows when the clock ticks between two reads
+  for (let i = 0; i < 10000; i++) {
+    assert.equal(toSeconds(dur), 0);
+  }
 });
 
 test("optional arguments for time calculation in toSeconds", () => {
