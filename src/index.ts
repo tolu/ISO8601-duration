@@ -101,11 +101,12 @@ export const end = (
     0,
   ).getDate();
   then.setDate(Math.min(dayOfMonth, daysInMonth) + duration.days);
-  // set time as milliseconds to get fractions working for minutes/hours
-  const hoursInMs = duration.hours * 3600 * 1000;
-  const minutesInMs = duration.minutes * 60 * 1000;
+  // Round at nanosecond level to remove float noise (1.001 * 1000 is
+  // 1000.9999999999999), then floor to whole milliseconds like Temporal does
+  const seconds =
+    duration.hours * 3600 + duration.minutes * 60 + duration.seconds;
   then.setMilliseconds(
-    then.getMilliseconds() + duration.seconds * 1000 + hoursInMs + minutesInMs,
+    then.getMilliseconds() + Math.floor(Math.round(seconds * 1e9) / 1e6),
   );
   // Special case weeks
   then.setDate(then.getDate() + duration.weeks * 7);
