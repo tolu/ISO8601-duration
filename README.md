@@ -6,8 +6,8 @@ Node/Js-module for parsing and making sense of ISO 8601 durations
 [![npm version](https://img.shields.io/npm/v/iso8601-duration.svg)][npm]
 ![npm bundle size][bundlephobia]
 
-> A new standard is on it's way, see [Temporal.Duration](https://tc39.es/proposal-temporal/docs/duration.html)  
-> Tests (most) in this module now validate against [@js-temporal/polyfill](https://www.npmjs.com/package/@js-temporal/polyfill)
+> The standard for this is [Temporal.Duration](https://tc39.es/proposal-temporal/docs/duration.html), built into Node.js 26 and later.  
+> Tests in this module validate against the native `Temporal`, so running them needs Node.js 26+. Using the module has no such requirement.
 
 ## The ISO 8601 duration format
 
