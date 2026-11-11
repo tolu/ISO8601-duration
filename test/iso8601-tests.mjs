@@ -20,6 +20,46 @@ const relativePlainDate = new Temporal.PlainDate(
   relativeDate.getMonth() + 1,
   relativeDate.getDate(),
 );
+// whole-millisecond durations whose fraction is not exactly representable as
+// a float once multiplied up to milliseconds
+const millisecondDurations = [
+  "PT1.001S", // 1.001 * 1000 === 1000.9999999999999
+  "PT1.003S",
+  "PT1.023S",
+  "PT2.002S",
+  "PT0.009M", // 540ms
+  "PT0.011H", // 39600ms
+];
+
+[
+  ...millisecondDurations,
+  // a Date has no sub-millisecond precision, the rest is dropped (not rounded)
+  "PT0.0004S",
+  "PT0.0006S",
+  "PT1.0019S",
+  "PT1.123456789S",
+  "PT0.000000001H", // 3600ns
+].forEach((value) => {
+  // a start on .999 makes a lost or gained millisecond cross a second boundary
+  ["2026-01-01T00:00:00.000Z", "2026-01-01T00:00:00.999Z"].forEach((iso) => {
+    test(`end: matches Temporal epoch milliseconds (${value} from ${iso})`, () => {
+      const expected = Temporal.Instant.from(iso).add(
+        Temporal.Duration.from(value),
+      ).epochMilliseconds;
+      assert.equal(end(parse(value), new Date(iso)).getTime(), expected);
+    });
+  });
+});
+
+millisecondDurations.forEach((value) => {
+  test(`toSeconds: keeps whole milliseconds (${value})`, () => {
+    assert.equal(
+      toSeconds(parse(value), new Date("2026-01-01T00:00:00.000Z")),
+      Temporal.Duration.from(value).total({ unit: "second" }),
+    );
+  });
+});
+
 // ok patterns
 [
   "P0D",
