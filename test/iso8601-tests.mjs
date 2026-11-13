@@ -1,7 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { Temporal } from "@js-temporal/polyfill";
 import { end, parse, pattern, toSeconds } from "../lib/index.js";
+
+// Tests validate against the native Temporal implementation
+if (typeof Temporal === "undefined") {
+  throw new Error(
+    `Tests need the global Temporal, available in Node.js 26+ (running ${process.version})`,
+  );
+}
 
 const tryCatch = (cb) => {
   try {
@@ -110,8 +116,8 @@ millisecondDurations.forEach((value) => {
       null,
       `Should have thrown: "${errExpected.toString()}"`,
     );
-    // Assert
-    assert.equal(errActual.message, errExpected.message);
+    // Same error type, the message text differs between Temporal implementations
+    assert.equal(errActual.name, errExpected.name);
   });
 });
 

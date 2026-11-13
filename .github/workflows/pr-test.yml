@@ -1,12 +1,21 @@
 name: Run Tests
-on: [push]
+on:
+  push:
+    branches: [master]
+  # also runs for PRs from forks, which a push trigger does not
+  pull_request:
+# the repo default gives workflows write access, tests only need to read
+permissions:
+  contents: read
 jobs:
   Npm-Install-And-Test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      # actions are pinned to a commit, tags can be moved
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 'lts/*'
-      - run: npm install
+          # tests validate against the native Temporal, which needs Node.js 26+
+          node-version: 26
+      - run: npm ci
       - run: npm test

@@ -3,7 +3,9 @@
     "module": "commonjs",
     "lib": ["esnext"],
     "target": "ES5",
+    "ignoreDeprecations": "6.0",
     "strict": true,
+    "rootDir": "src",
     "outDir": "lib",
     "declaration": true,
     "forceConsistentCasingInFileNames": true
