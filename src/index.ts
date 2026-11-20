@@ -78,6 +78,36 @@ export const parse = (durationString: string): Duration => {
   }, {} as Duration);
 };
 
+/**
+ * The day the date part of a duration ends on, as midnight UTC. The math runs
+ * in UTC, where no day has a DST gap that could move the time of day.
+ */
+const endDay = (duration: Required<Duration>, startDate: Date): Date => {
+  // Clamp the day to the last day of the target month, so that e.g.
+  // Jan 31 + P1M is Feb 28, not an overflow into March
+  const day = new Date(0);
+  day.setUTCFullYear(
+    startDate.getFullYear() + duration.years,
+    startDate.getMonth() + duration.months + 1,
+    0,
+  );
+  day.setUTCDate(
+    Math.min(startDate.getDate(), day.getUTCDate()) +
+      duration.weeks * 7 +
+      duration.days,
+  );
+  return day;
+};
+
+/** Milliseconds in the hours, minutes and seconds of a duration */
+const timeMilliseconds = (duration: Required<Duration>): number => {
+  // Round at nanosecond level to remove float noise (1.001 * 1000 is
+  // 1000.9999999999999), then floor to whole milliseconds like Temporal does
+  const seconds =
+    duration.hours * 3600 + duration.minutes * 60 + duration.seconds;
+  return Math.floor(Math.round(seconds * 1e9) / 1e6);
+};
+
 /** Convert ISO8601 duration object to an end Date. */
 export const end = (
   durationInput: Duration,
@@ -85,31 +115,13 @@ export const end = (
 ): Date => {
   const duration = Object.assign({}, defaultDuration, durationInput);
 
-  // Create two equal timestamps, add duration to 'then' and return time difference
-  const timestamp = startDate.getTime();
-  const then = new Date(timestamp);
-
-  // Add years/months on the 1st, then clamp the day to the resulting month so
-  // that e.g. Jan 31 + P1M is Feb 28, not an overflow into March
-  const dayOfMonth = then.getDate();
-  then.setDate(1);
-  then.setFullYear(then.getFullYear() + duration.years);
-  then.setMonth(then.getMonth() + duration.months);
-  const daysInMonth = new Date(
-    then.getFullYear(),
-    then.getMonth() + 1,
-    0,
-  ).getDate();
-  then.setDate(Math.min(dayOfMonth, daysInMonth) + duration.days);
-  // Round at nanosecond level to remove float noise (1.001 * 1000 is
-  // 1000.9999999999999), then floor to whole milliseconds like Temporal does
-  const seconds =
-    duration.hours * 3600 + duration.minutes * 60 + duration.seconds;
-  then.setMilliseconds(
-    then.getMilliseconds() + Math.floor(Math.round(seconds * 1e9) / 1e6),
-  );
-  // Special case weeks
-  then.setDate(then.getDate() + duration.weeks * 7);
+  // Move to the end day in one step, keeping the local time of day
+  const day = endDay(duration, startDate);
+  const then = new Date(startDate.getTime());
+  then.setFullYear(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate());
+  // Hours, minutes and seconds are exact time, like in Temporal: add them to
+  // the timestamp, not to the wall clock, so PT24H is 24 hours across DST
+  then.setTime(then.getTime() + timeMilliseconds(duration));
 
   return then;
 };
@@ -121,17 +133,17 @@ export const toSeconds = (
 ): number => {
   const duration = Object.assign({}, defaultDuration, durationInput);
 
-  const timestamp = startDate.getTime();
-  const now = new Date(timestamp);
-  const then = end(duration, now);
+  // Count whole days on the calendar, so DST changes on the way do not add or
+  // remove an hour (P1D is always 86400 seconds)
+  const startDay = new Date(0);
+  startDay.setUTCFullYear(
+    startDate.getFullYear(),
+    startDate.getMonth(),
+    startDate.getDate(),
+  );
+  const days = endDay(duration, startDate).getTime() - startDay.getTime();
 
-  // Account for timezone offset between start and end date
-  const tzStart = startDate.getTimezoneOffset();
-  const tzEnd = then.getTimezoneOffset();
-  const tzOffsetSeconds = (tzStart - tzEnd) * 60;
-
-  const seconds = (then.getTime() - now.getTime()) / 1000;
-  return seconds + tzOffsetSeconds;
+  return (days + timeMilliseconds(duration)) / 1000;
 };
 
 export default {
