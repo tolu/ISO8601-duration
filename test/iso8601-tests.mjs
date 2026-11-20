@@ -200,6 +200,56 @@ test("toSeconds: with supplied start date", () => {
   });
 });
 
+// Around DST changes: hours, minutes and seconds are exact time and the date
+// part keeps the local time of day, like Temporal.ZonedDateTime.add
+const inTimeZone = (timeZone, cb) => {
+  const previous = process.env.TZ;
+  process.env.TZ = timeZone;
+  try {
+    cb();
+  } finally {
+    if (previous === undefined) delete process.env.TZ;
+    else process.env.TZ = previous;
+  }
+};
+[
+  // spring forward: 24 hours later is 13:00, not 12:00 (23 hours)
+  ["America/New_York", "PT24H", "2026-03-07T12:00:00-05:00"],
+  // fall back: 1 hour after 01:30 EDT is 01:30 EST, not 02:30 EST (2 hours)
+  ["America/New_York", "PT1H", "2026-11-01T01:30:00-04:00"],
+  ["America/New_York", "P1DT1H", "2026-10-31T01:30:00-04:00"],
+  // 02:26 on the 1st of the start month does not exist (DST starts at 02:00)
+  ["Australia/Lord_Howe", "P1M", "2023-10-05T02:26:00+11:00"],
+  // 00:30 on the 1st of the start month does not exist (DST starts at 00:00)
+  ["America/Asuncion", "P1M", "2023-10-15T00:30:00-03:00"],
+  // the end falls in the DST gap: one year is still 365 days of seconds
+  ["Europe/Berlin", "P1Y", "2026-03-28T02:10:00+01:00"],
+].forEach(([timeZone, value, iso]) => {
+  const start = Temporal.Instant.from(iso).toZonedDateTimeISO(timeZone);
+  const duration = Temporal.Duration.from(value);
+
+  test(`end: matches Temporal across DST changes (${value} from ${iso} in ${timeZone})`, () => {
+    inTimeZone(timeZone, () => {
+      assert.equal(
+        end(parse(value), new Date(iso)).getTime(),
+        start.add(duration).epochMilliseconds,
+      );
+    });
+  });
+
+  test(`toSeconds: ignores DST changes (${value} from ${iso} in ${timeZone})`, () => {
+    inTimeZone(timeZone, () => {
+      assert.equal(
+        toSeconds(parse(value), new Date(iso)),
+        duration.total({
+          unit: "second",
+          relativeTo: start.toPlainDateTime(),
+        }),
+      );
+    });
+  });
+});
+
 test("usage example test", () => {
   // Arrange
   const jsonString = JSON.stringify({
